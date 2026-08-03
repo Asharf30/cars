@@ -4,7 +4,7 @@
 @theme {
   --font-inter: "Inter", sans-serif;
   --color-black-100: #2b2c35;
-  --color-primary-blue: #2b59ff;
+  --color-primary-blue: #2573eb;
   --color-primary-blue-100: #f5f8ff;
 
   --color-secondary-orange: #f79761;
@@ -15,7 +15,7 @@
 
   --color-grey: #747a88;
   --background-image-pattern: url("/pattern.png");
-  --background-image-hero-bg: url("/hero-bg.png");
+  --background-image-hero-bg: url("/hero (2).png");
 }
 
 
