@@ -26,7 +26,7 @@ const Navbar = () => {
         <CustomButton
           title="Sign In"
           btnType="button"
-          continerStyles="text-primary-blue rounded-full bg-white min-w-[130px]"
+          continerStyles="text-white rounded-full bg-primary-blue min-w-[130px]"
         />
       </nav>
     </motion.header>
