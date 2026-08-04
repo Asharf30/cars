@@ -8,7 +8,7 @@
   --color-primary-blue-100: #f5f8ff;
 
   --color-secondary-orange: #f79761;
-  
+
   --color-light-white: rgba(59, 60, 152, 0.03);
 
   --color-light-white-100: rgba(59, 60, 152, 0.02);
@@ -17,7 +17,6 @@
   --background-image-pattern: url("/pattern.png");
   --background-image-hero-bg: url("/hero-bg.png");
 }
-
 
 * {
   margin: 0;
@@ -59,11 +58,10 @@
 }
 
 .navbar__inner {
-  @apply max-w-[1440px] mx-auto flex justify-between items-center sm:px-16 px-6 py-4
+  @apply max-w-[1440px] mx-auto  flex justify-between items-center sm:px-16 px-6 py-4
     transition-all duration-300;
 }
 /* END: Navbar styles */
-
 
 /* START: Hero styles */
 .hero {
@@ -71,7 +69,7 @@
 }
 
 .hero__title {
-  @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold;
+  @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold mt-20;
 }
 
 .hero__subtitle {
@@ -245,4 +243,3 @@
   @apply cursor-default select-none py-2 pl-10 pr-4;
 }
 /* END: search manufacturer styles */
-
