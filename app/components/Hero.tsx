@@ -8,7 +8,7 @@ const Hero = () => {
   const handelScroll = () => {};
   return (
     <div className="hero">
-      <div className="flex-1 pt-44 xl:pt-48 padding-x">
+      <div className="flex-1 pt-[200px] sm:pt-[240px] xl:pt-[280px] padding-x">
         <motion.h1
           className="hero__title"
           initial={{ opacity: 0, y: 24 }}
