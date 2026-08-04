@@ -44,10 +44,16 @@ const Footer = () => {
           &copy; 2026 Car Showroom. All rights reserved.
         </p>
         <div className="footer__copyrights-link">
-          <Link href="/" className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200">
+          <Link
+            href="/"
+            className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200"
+          >
             Privacy Policy
           </Link>
-          <Link href="/" className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200">
+          <Link
+            href="/"
+            className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200"
+          >
             Terms of Use
           </Link>
         </div>

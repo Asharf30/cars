@@ -3,13 +3,13 @@
 
 @theme {
   --font-inter: "Inter", sans-serif;
-  --color-black-100: #E0FBFC;
-  --color-primary-blue: #00F3FF;
-  --color-primary-blue-100: #1A0B2E;
-  --color-secondary-orange: #B5179E;
+  --color-black-100: #e0fbfc;
+  --color-primary-blue: #00f3ff;
+  --color-primary-blue-100: #1a0b2e;
+  --color-secondary-orange: #b5179e;
   --color-light-white: rgba(181, 23, 158, 0.08);
   --color-light-white-100: rgba(181, 23, 158, 0.04);
-  --color-grey: #A69CAC;
+  --color-grey: #a69cac;
   --background-image-pattern: url("/pattern.png");
   --background-image-hero-bg: url("/hero-bg.png");
 }
@@ -22,8 +22,8 @@
 }
 
 body {
-  background-color: #0F0518;
-  color: #E0FBFC;
+  background-color: #0f0518;
+  color: #e0fbfc;
 }
 
 /* START: General styles */
@@ -49,13 +49,15 @@ body {
 
 .custom-btn {
   @apply flex flex-row relative justify-center items-center py-3 px-6 outline-none transition-all duration-300 ease-out border border-transparent;
-  color: #0F0518;
+  color: #0f0518;
   font-weight: 700;
 }
 .custom-btn:hover {
-  box-shadow: 0 0 20px rgba(0, 243, 255, 0.7), 0 0 40px rgba(181, 23, 158, 0.5);
+  box-shadow:
+    0 0 20px rgba(0, 243, 255, 0.7),
+    0 0 40px rgba(181, 23, 158, 0.5);
   transform: scale(1.02);
-  border-color: #00F3FF;
+  border-color: #00f3ff;
 }
 /* END: General styles */
 
@@ -77,30 +79,32 @@ a {
   @apply relative transition-colors duration-300;
 }
 a:hover:not(.flex) {
-  color: #B5179E;
+  color: #b5179e;
   text-shadow: 0 0 10px rgba(181, 23, 158, 0.5);
 }
 .footer__link a,
 .footer__copyrights-link a {
-  color: #E0FBFC;
+  color: #e0fbfc;
 }
 .footer__link a:hover,
 .footer__copyrights-link a:hover {
-  color: #D8B4FE;
+  color: #d8b4fe;
   text-shadow: 0 0 8px rgba(216, 180, 254, 0.25);
 }
-.navbar a::after, .footer__link a::after {
-  content: '';
+.navbar a::after,
+.footer__link a::after {
+  content: "";
   position: absolute;
   width: 0;
   height: 2px;
   bottom: -4px;
   left: 0;
-  background-color: #00F3FF;
+  background-color: #00f3ff;
   transition: width 0.3s ease;
   box-shadow: 0 0 8px rgba(0, 243, 255, 0.8);
 }
-.navbar a:hover::after, .footer__link a:hover::after {
+.navbar a:hover::after,
+.footer__link a:hover::after {
   width: 100%;
 }
 /* END: Link styles */
@@ -112,13 +116,13 @@ a:hover:not(.flex) {
 
 .hero__title {
   @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold mt-25;
-  color: #E0FBFC;
+  color: #e0fbfc;
   text-shadow: 0 0 15px rgba(181, 23, 158, 0.4);
 }
 
 .hero__subtitle {
   @apply text-[27px] font-light mt-5;
-  color: #A69CAC;
+  color: #a69cac;
 }
 
 .hero__image-container {
@@ -132,7 +136,12 @@ a:hover:not(.flex) {
 
 .hero__image-overlay {
   @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 -z-10 w-full xl:h-screen h-[590px] overflow-hidden max-w-full;
-  background: radial-gradient(circle at center, rgba(181, 23, 158, 0.15) 0%, rgba(0, 243, 255, 0.08) 50%, transparent 70%);
+  background: radial-gradient(
+    circle at center,
+    rgba(181, 23, 158, 0.15) 0%,
+    rgba(0, 243, 255, 0.08) 50%,
+    transparent 70%
+  );
 }
 /* END: Hero styles */
 
@@ -218,26 +227,28 @@ a:hover:not(.flex) {
 .car-details__close-btn {
   @apply absolute top-2 right-2 z-10 w-fit p-2 rounded-full;
   background: rgba(181, 23, 158, 0.1);
-  color: #B5179E;
+  color: #b5179e;
 }
 
 .car-details__main-image {
   @apply relative w-full h-40 bg-cover bg-center rounded-lg;
-  background-image: linear-gradient(rgba(26, 11, 46, 0.8), rgba(26, 11, 46, 0.8)), url("/pattern.png");
+  background-image:
+    linear-gradient(rgba(26, 11, 46, 0.8), rgba(26, 11, 46, 0.8)),
+    url("/pattern.png");
 }
 /* END: Car Details styles */
 
 /* START: Custom Filter styles */
 .custom-filter__btn {
   @apply relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg py-2 px-3 text-left shadow-md sm:text-sm;
-  background: #1A0B2E;
+  background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
-  color: #E0FBFC;
+  color: #e0fbfc;
 }
 
 .custom-filter__options {
   @apply absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg focus:outline-none sm:text-sm;
-  background: #1A0B2E;
+  background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
 }
 /* END: Custom Filter styles */
@@ -246,7 +257,7 @@ a:hover:not(.flex) {
 .footer {
   @apply flex flex-col mt-5;
   border-top: 1px solid rgba(181, 23, 158, 0.2);
-  background: #0F0518;
+  background: #0f0518;
 }
 
 .footer__links-container {
@@ -286,9 +297,9 @@ a:hover:not(.flex) {
 
 .searchbar__input {
   @apply w-full h-[48px] pl-12 p-4 rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm;
-  background: #1A0B2E;
+  background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
-  color: #E0FBFC;
+  color: #e0fbfc;
 }
 /* END: searchbar styles */
 
@@ -299,14 +310,14 @@ a:hover:not(.flex) {
 
 .search-manufacturer__input {
   @apply w-full h-[48px] pl-12 p-4 rounded-l-full max-sm:rounded-full outline-none cursor-pointer text-sm;
-  background: #1A0B2E;
+  background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
-  color: #E0FBFC;
+  color: #e0fbfc;
 }
 
 .search-manufacturer__options {
   @apply absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg focus:outline-none sm:text-sm;
-  background: #1A0B2E;
+  background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
 }
 
