@@ -80,6 +80,15 @@ a:hover:not(.flex) {
   color: #B5179E;
   text-shadow: 0 0 10px rgba(181, 23, 158, 0.5);
 }
+.footer__link a,
+.footer__copyrights-link a {
+  color: #E0FBFC;
+}
+.footer__link a:hover,
+.footer__copyrights-link a:hover {
+  color: #D8B4FE;
+  text-shadow: 0 0 8px rgba(216, 180, 254, 0.25);
+}
 .navbar a::after, .footer__link a::after {
   content: '';
   position: absolute;
@@ -102,7 +111,7 @@ a:hover:not(.flex) {
 }
 
 .hero__title {
-  @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold;
+  @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold mt-25;
   color: #E0FBFC;
   text-shadow: 0 0 15px rgba(181, 23, 158, 0.4);
 }

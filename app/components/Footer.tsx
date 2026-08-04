@@ -14,7 +14,7 @@ const Footer = () => {
             height={18}
             className="object-contain"
           />
-          <p className="text-base text-gray-700">
+          <p className="text-base text-[#E0FBFC]">
             2026 Car Showroom. <br />
             All rights reserved ©
           </p>
@@ -27,9 +27,11 @@ const Footer = () => {
                 {link.links.map((item) => (
                   <li
                     key={item.title}
-                    className="text-gray-700 hover:text-blue-500 transition-colors duration-200"
+                    className="text-[#E0FBFC] transition-colors duration-200"
                   >
-                    <Link href={item.url}>{item.title}</Link>
+                    <Link href={item.url} className="hover:text-[#D8B4FE]">
+                      {item.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -38,14 +40,14 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer__copyrights">
-        <p className="text-gray-700">
+        <p className="text-[#E0FBFC]">
           &copy; 2026 Car Showroom. All rights reserved.
         </p>
         <div className="footer__copyrights-link">
-          <Link href="/" className="text-gray-700">
+          <Link href="/" className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200">
             Privacy Policy
           </Link>
-          <Link href="/" className="text-gray-700">
+          <Link href="/" className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200">
             Terms of Use
           </Link>
         </div>

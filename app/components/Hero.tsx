@@ -30,10 +30,11 @@ const Hero = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          style={{ marginTop: "2rem" }}
         >
           <CustomButton
             title="Explore Cars"
-            continerStyles="bg-primary-blue text-white rounded-full mt-10"
+            continerStyles="bg-primary-blue text-white rounded-full mt-15"
             handelClick={handelScroll}
           />
         </motion.div>
