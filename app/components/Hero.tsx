@@ -2,30 +2,53 @@
 
 import CustomButton from "./CustomButton";
 import Image from "next/image";
+import { motion } from "framer-motion";
+
 const Hero = () => {
   const handelScroll = () => {};
   return (
     <div className="hero">
-      <div className="flex-1 pt-36 padding-x">
-        <h1 className="hero__title">
+      <div className="flex-1 pt-44 xl:pt-48 padding-x">
+        <motion.h1
+          className="hero__title"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           Find, book, rent a car—quick and super easily!
-        </h1>
-        <p className="hero__subtitle">
+        </motion.h1>
+        <motion.p
+          className="hero__subtitle"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+        >
           Streamline your car rental experience with our effortless booking
           process.
-        </p>
-        <CustomButton
-          title="Explore Cars"
-          continerStyles="bg-primary-blue text-white rounded-full mt-10"
-          handelClick={handelScroll}
-        />
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+        >
+          <CustomButton
+            title="Explore Cars"
+            continerStyles="bg-primary-blue text-white rounded-full mt-10"
+            handelClick={handelScroll}
+          />
+        </motion.div>
       </div>
-      <div className="hero__image-container">
+      <motion.div
+        className="hero__image-container"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
+      >
         <div className="hero__image">
           <Image src="/final2.png" alt="hero" fill className="object-contain" />
         </div>
         <div className="hero__image-overlay " />
-      </div>
+      </motion.div>
     </div>
   );
 };

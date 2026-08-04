@@ -1,12 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import CustomButton from "./CustomButton";
 
 const Navbar = () => {
   return (
-    <header className="w-full absolute z-10 ">
-      <nav className="max-w-360 mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
-        <Link href="/" className="flex justify-center  items-center">
+    <motion.header
+      className="navbar"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <nav className="navbar__inner">
+        <Link href="/" className="flex justify-center items-center">
           <Image
             src="/logo.svg"
             alt="Logo"
@@ -21,7 +29,7 @@ const Navbar = () => {
           continerStyles="text-primary-blue rounded-full bg-white min-w-[130px]"
         />
       </nav>
-    </header>
+    </motion.header>
   );
 };
 

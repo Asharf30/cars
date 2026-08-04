@@ -15,7 +15,7 @@
 
   --color-grey: #747a88;
   --background-image-pattern: url("/pattern.png");
-  --background-image-hero-bg: url("/hero (2).png");
+  --background-image-hero-bg: url("/hero-bg.png");
 }
 
 
@@ -48,9 +48,22 @@
 }
 
 .custom-btn {
-  @apply flex flex-row relative justify-center items-center py-3 px-6 outline-none;
+  @apply flex flex-row relative justify-center items-center py-3 px-6 outline-none
+    transition-shadow duration-200 ease-out hover:shadow-md;
 }
 /* END: General styles */
+
+/* START: Navbar styles */
+.navbar {
+  @apply w-full absolute z-10;
+}
+
+.navbar__inner {
+  @apply max-w-[1440px] mx-auto flex justify-between items-center sm:px-16 px-6 py-4
+    transition-all duration-300;
+}
+/* END: Navbar styles */
+
 
 /* START: Hero styles */
 .hero {
@@ -66,7 +79,7 @@
 }
 
 .hero__image-container {
-  @apply xl:flex-[1.5] flex justify-end items-end w-full xl:h-screen;
+  @apply xl:flex-[1.5] flex justify-end items-end w-full xl:h-screen h-[590px];
 }
 
 .hero__image {
@@ -74,7 +87,7 @@
 }
 
 .hero__image-overlay {
-  @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden;
+  @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden max-w-full;
 }
 /* END: Hero styles */
 
@@ -232,3 +245,4 @@
   @apply cursor-default select-none py-2 pl-10 pr-4;
 }
 /* END: search manufacturer styles */
+
