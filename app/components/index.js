@@ -3,5 +3,17 @@ import CustomButton from "./CustomButton";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ScrollReveal from "./ScrollReveal";
+import SearchBar from "./SearchBar";
+import CustomFilter from "./CustomFilter";
+import SearchManufacturer from "./SearchManufacturer";
 
-export { Hero, CustomButton, Navbar, Footer, ScrollReveal };
+export {
+  Hero,
+  CustomButton,
+  Navbar,
+  Footer,
+  ScrollReveal,
+  SearchBar,
+  CustomFilter,
+  SearchManufacturer,
+};
