@@ -41,6 +41,21 @@ export const manufacturers = [
   "Toyota",
   "Volkswagen",
   "Volvo",
+  "Renault",
+  "Opel",
+  "Skoda",
+  "SEAT",
+  "Cupra",
+  "Lancia",
+  "Avatar",
+  "Geely",
+  "NIO",
+  "Xiaomi",
+  "Li Auto",
+  "Changan",
+  "Chery",
+  "MG",
+  "GAC",
 ];
 
 export const yearsOfProduction = [

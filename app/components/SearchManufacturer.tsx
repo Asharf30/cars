@@ -33,6 +33,7 @@ const SearchManufacturer = ({
       <Combobox
         value={manufacturer}
         onChange={(value) => setManufacturer(value ?? "")}
+        immediate
       >
         <div className="w-full relative">
           <ComboboxButton className="absolute top-[14px] absolute left-[14px]">
@@ -57,14 +58,14 @@ const SearchManufacturer = ({
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <ComboboxOptions>
+            <ComboboxOptions className="search-manufacturer__options">
               {filteredManufacturers.map((item) => (
                 <ComboboxOption
                   key={item}
                   value={item}
                   className={({ focus }) => `
                     relative search-manufacturer__option 
-                    ${focus ? " bg-cyan-300 text-white" : "white"}
+                    ${focus ? " bg-cyan-300 text-white" : "text-white"}
                     `}
                 >
                   {({ selected, focus }) => (
@@ -78,7 +79,9 @@ const SearchManufacturer = ({
                       {selected ? (
                         <span
                           className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? "text-white" : "text-pribg-primary-purple"}`}
-                        ></span>
+                        >
+                          ✓
+                        </span>
                       ) : null}
                     </>
                   )}
