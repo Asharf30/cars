@@ -10,11 +10,11 @@ import {
 } from "@headlessui/react";
 import Image from "next/image";
 import { useState, Fragment } from "react";
-import { manufacturers } from "../contstants";
 
 const SearchManufacturer = ({
   manufacturer,
   setManufacturer,
+  manufacturers,
 }: SearchManufacturerProps) => {
   const [query, setQuery] = useState("");
 

@@ -1,3 +1,5 @@
+// FALLBACK: static list for backward compatibility with SearchManufacturer.tsx.
+// For dynamic, year-specific makes, use fetchManufacturers() below.
 export const manufacturers = [
   "Acura",
   "Alfa Romeo",
@@ -58,6 +60,15 @@ export const manufacturers = [
   "GAC",
 ];
 
+// PRIMARY: fetches real makes for a given year from FuelEconomy.gov
+export async function fetchManufacturers(year: string): Promise<string[]> {
+  const { fetchMakes } = await import("../utlis");
+  const items = await fetchMakes(year);
+  return items.map((item) => item.text);
+}
+
+// FALLBACK: static list for immediate use before async fetch completes.
+// For dynamic, always-current years, use fetchAvailableYears() below.
 export const yearsOfProduction = [
   { title: "Year", value: "" },
   { title: "2015", value: "2015" },
@@ -71,19 +82,27 @@ export const yearsOfProduction = [
   { title: "2023", value: "2023" },
 ];
 
+// PRIMARY: fetches real year list from FuelEconomy.gov
+export async function fetchAvailableYears(): Promise<{ title: string; value: string }[]> {
+  const { fetchYears } = await import("../utlis");
+  const items = await fetchYears();
+  return [
+    { title: "Year", value: "" },
+    ...items.map((item) => ({ title: item.text, value: item.value })),
+  ];
+}
+
 export const fuels = [
-  {
-    title: "Fuel",
-    value: "",
-  },
-  {
-    title: "Gas",
-    value: "Gas",
-  },
-  {
-    title: "Electricity",
-    value: "Electricity",
-  },
+  { title: "Fuel", value: "" },
+  { title: "Regular Gasoline", value: "Regular" },
+  { title: "Premium Gasoline", value: "Premium" },
+  { title: "Diesel", value: "Diesel" },
+  { title: "Electricity", value: "Electricity" },
+  { title: "Gasoline or E85", value: "Gasoline or E85" },
+  { title: "CNG", value: "CNG" },
+  { title: "Hydrogen", value: "Hydrogen" },
+  { title: "Regular Gas and Electricity", value: "Regular Gas and Electricity" },
+  { title: "Premium and Electricity", value: "Premium and Electricity" },
 ];
 
 export const footerLinks = [

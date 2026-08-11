@@ -11,9 +11,12 @@ export interface CustomButtonProps {
 export interface SearchManufacturerProps {
   manufacturer: string;
   setManufacturer: (manufacturer: string) => void;
+  manufacturers: string[];
 }
 
 export interface CarProps {
+  id: number;
+  year: number;
   city_mpg: number | string;
   class: string;
   combination_mpg: number | string;
@@ -25,4 +28,9 @@ export interface CarProps {
   make: string;
   model: string;
   transmission: string;
+}
+
+export interface SearchYearProps {
+  year: string;
+  setYear: (year: string) => void;
 }
