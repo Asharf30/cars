@@ -12,7 +12,7 @@ const Footer = () => {
             alt="Logo"
             width={118}
             height={18}
-            className="object-contain"
+            className="object-contain logo-float"
           />
           <p className="text-base text-[#E0FBFC]">
             2026 Car Showroom. <br />

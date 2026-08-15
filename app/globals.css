@@ -78,6 +78,28 @@ body {
 }
 /* END: Navbar styles */
 
+/* START: Logo styles */
+@keyframes float-idle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.logo-float {
+  animation: float-idle 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-float {
+    animation: none;
+  }
+}
+/* END: Logo styles */
+
 /* START: Link styles */
 a {
   @apply relative transition-colors duration-300;
