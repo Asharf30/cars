@@ -10,6 +10,8 @@
   --color-light-white: rgba(181, 23, 158, 0.08);
   --color-light-white-100: rgba(181, 23, 158, 0.04);
   --color-grey: #a69cac;
+  --color-neon-cyan: #00E5FF;
+  --color-neon-violet: #B026FF;
   --background-image-pattern: url("/pattern.png");
   --background-image-hero-bg: url("/hero-bg.png");
 }
@@ -48,16 +50,18 @@ body {
 }
 
 .custom-btn {
-  @apply flex flex-row relative justify-center items-center py-3 px-6 outline-none transition-all duration-300 ease-out border border-transparent;
-  color: #0f0518;
+  @apply flex flex-row relative justify-center items-center py-3 px-6 outline-none border border-transparent;
+  background: linear-gradient(135deg, var(--color-neon-cyan) 0%, var(--color-neon-violet) 100%);
+  color: #ffffff;
   font-weight: 700;
+  will-change: transform, box-shadow;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
 }
 .custom-btn:hover {
   box-shadow:
-    0 0 20px rgba(0, 243, 255, 0.7),
-    0 0 40px rgba(181, 23, 158, 0.5);
-  transform: scale(1.02);
-  border-color: #00f3ff;
+    0 0 20px color-mix(in srgb, var(--color-neon-cyan) 60%, transparent),
+    0 0 40px color-mix(in srgb, var(--color-neon-violet) 40%, transparent);
+  border-color: color-mix(in srgb, var(--color-neon-cyan) 75%, transparent);
 }
 /* END: General styles */
 
@@ -78,40 +82,47 @@ body {
 a {
   @apply relative transition-colors duration-300;
 }
-a:hover:not(.flex) {
-  color: #b5179e;
-  text-shadow: 0 0 10px rgba(181, 23, 158, 0.5);
-}
 .footer__link a,
 .footer__copyrights-link a {
   color: #e0fbfc;
 }
-.footer__link a:hover,
-.footer__copyrights-link a:hover {
-  color: #d8b4fe;
-  text-shadow: 0 0 8px rgba(216, 180, 254, 0.25);
+
+/* Reusable neon link hover: color shift + glow + sliding arrow */
+.neon-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #e0fbfc;
+  transition:
+    color 0.28s ease-out,
+    text-shadow 0.28s ease-out;
 }
-.navbar a::after,
-.footer__link a::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: #00f3ff;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 8px rgba(0, 243, 255, 0.8);
+
+.neon-link::after {
+  content: "\2192";
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.28s ease-out,
+    transform 0.28s ease-out;
+  font-size: 0.85em;
 }
-.navbar a:hover::after,
-.footer__link a:hover::after {
-  width: 100%;
+
+.neon-link:hover {
+  color: var(--color-neon-cyan);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--color-neon-cyan) 80%, transparent);
+}
+
+.neon-link:hover::after {
+  opacity: 1;
+  transform: translateX(4px);
 }
 /* END: Link styles */
 
 /* START: Hero styles */
 .hero {
-  @apply flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1440px] mx-auto;
+  @apply flex lg:flex-row flex-col gap-5 relative z-0 max-w-[1440px] mx-auto;
 }
 
 .hero__title {
@@ -126,16 +137,16 @@ a:hover:not(.flex) {
 }
 
 .hero__image-container {
-  @apply xl:flex-[1.5] flex justify-end items-end w-full xl:h-screen h-[590px];
+  @apply lg:flex-[1.5] flex justify-end items-end w-full lg:h-screen h-[590px];
 }
 
 .hero__image {
-  @apply relative xl:w-full w-[90%] xl:h-full h-[590px] z-0;
+  @apply relative lg:w-full w-[90%] lg:h-full h-[590px] z-0;
   filter: drop-shadow(0 0 40px rgba(0, 243, 255, 0.15));
 }
 
 .hero__image-overlay {
-  @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 -z-10 w-full xl:h-screen h-[590px] overflow-hidden max-w-full;
+  @apply absolute lg:-top-24 lg:-right-1/2 -right-1/4 -z-10 w-full lg:h-screen h-[590px] overflow-hidden max-w-full;
   background: radial-gradient(
     circle at center,
     rgba(181, 23, 158, 0.15) 0%,
@@ -169,12 +180,16 @@ a:hover:not(.flex) {
 
 /* START: Car Card styles */
 .car-card {
-  @apply flex flex-col p-6 justify-center items-start bg-primary-blue-100 hover:shadow-md rounded-3xl transition-all duration-300;
-  border: 1px solid rgba(181, 23, 158, 0.1);
+  @apply flex flex-col p-6 justify-center items-start rounded-3xl transition-all duration-300;
+  background: linear-gradient(180deg, rgba(26, 11, 46, 0.96), rgba(15, 5, 24, 0.96));
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 18%, transparent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
 .car-card:hover {
-  box-shadow: 0 0 25px rgba(0, 243, 255, 0.2);
-  border-color: rgba(0, 243, 255, 0.5);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.32),
+    0 0 24px color-mix(in srgb, var(--color-neon-cyan) 18%, transparent);
+  border-color: color-mix(in srgb, var(--color-neon-cyan) 45%, transparent);
 }
 
 .car-card__content {
@@ -288,7 +303,7 @@ a:hover:not(.flex) {
 
 /* START: searchbar styles */
 .searchbar {
-  @apply flex items-center justify-start max-sm:flex-col w-full relative max-sm:gap-4 max-w-3xl;
+  @apply flex items-center justify-start max-sm:flex-col w-full relative gap-3 sm:gap-4 max-w-3xl;
 }
 
 .searchbar__item {
@@ -296,10 +311,18 @@ a:hover:not(.flex) {
 }
 
 .searchbar__input {
-  @apply w-full h-[48px] pl-12 p-4 rounded-r-full max-sm:rounded-full outline-none cursor-pointer text-sm;
-  background: #1a0b2e;
-  border: 1px solid rgba(0, 243, 255, 0.2);
+  @apply w-full h-[48px] pl-12 p-4 rounded-lg outline-none cursor-pointer text-sm;
+  background: rgba(26, 11, 46, 0.9);
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 25%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--color-neon-cyan) 8%, transparent);
   color: #e0fbfc;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+.searchbar__input:focus {
+  border-color: var(--color-neon-cyan);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-neon-cyan) 16%, transparent),
+    0 0 22px color-mix(in srgb, var(--color-neon-cyan) 18%, transparent);
 }
 /* END: searchbar styles */
 
@@ -309,10 +332,18 @@ a:hover:not(.flex) {
 }
 
 .search-manufacturer__input {
-  @apply w-full h-[48px] pl-12 p-4 rounded-l-full max-sm:rounded-full outline-none cursor-pointer text-sm;
-  background: #1a0b2e;
-  border: 1px solid rgba(0, 243, 255, 0.2);
+  @apply w-full h-[48px] pl-12 p-4 rounded-lg outline-none cursor-pointer text-sm;
+  background: rgba(26, 11, 46, 0.9);
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 25%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--color-neon-cyan) 8%, transparent);
   color: #e0fbfc;
+  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+.search-manufacturer__input:focus {
+  border-color: var(--color-neon-cyan);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-neon-cyan) 16%, transparent),
+    0 0 22px color-mix(in srgb, var(--color-neon-cyan) 18%, transparent);
 }
 
 .search-manufacturer__options {

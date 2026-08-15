@@ -179,14 +179,18 @@ const CarCard = ({ car }: CarCardProps) => {
         <div className="car-card__btn-container">
           <CustomButton
             title="View More"
-            continerStyles="w-full py-[16px] rounded-full bg-primary-blue"
+            continerStyles="w-full py-[16px] rounded-full"
             textStyles="text-white text-[14px] leading-[17px] font-bold"
             rightIcon="/right-arrow.svg"
             handelClick={() => setIsOpen(true)}
           />
         </div>
       </div>
-      <CarDetails/>
+      <CarDetails
+        isOpen={isOpen}
+        closeModals={() => setIsOpen(false)}
+        car={car}
+      />
     </div>
   );
 };

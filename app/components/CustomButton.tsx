@@ -18,9 +18,9 @@ const CustomButton = ({
       type={btnType || "button"}
       className={`custom-btn ${continerStyles} ${classname || ""} cursor-pointer`}
       onClick={handelClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      whileHover={{ y: -5 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
     >
       <span className={`flex-1 ${textStyles || ""}`}>{title}</span>
       {rightIcon && (

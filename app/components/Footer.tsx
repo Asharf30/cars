@@ -29,7 +29,7 @@ const Footer = () => {
                     key={item.title}
                     className="text-[#E0FBFC] transition-colors duration-200"
                   >
-                    <Link href={item.url} className="hover:text-[#D8B4FE]">
+                    <Link href={item.url} className="neon-link">
                       {item.title}
                     </Link>
                   </li>
@@ -46,13 +46,13 @@ const Footer = () => {
         <div className="footer__copyrights-link">
           <Link
             href="/"
-            className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200"
+            className="neon-link"
           >
             Privacy Policy
           </Link>
           <Link
             href="/"
-            className="text-[#E0FBFC] hover:text-[#D8B4FE] transition-colors duration-200"
+            className="neon-link"
           >
             Terms of Use
           </Link>

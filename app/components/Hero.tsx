@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 const Hero = () => {
   const handelScroll = () => {};
   return (
-    <div className="hero overflow-hidden">
-      <div className="flex-1 pt-[200px] sm:pt-[240px] xl:pt-[280px] padding-x">
+    <div className="hero">
+      <div className="flex-1 pt-[200px] sm:pt-[240px] lg:pt-[280px] padding-x">
         <motion.h1
           className="hero__title"
           initial={{ opacity: 0, y: 24 }}
@@ -34,7 +34,7 @@ const Hero = () => {
         >
           <CustomButton
             title="Explore Cars"
-            continerStyles="bg-primary-blue text-white rounded-full mt-10"
+            continerStyles="text-white rounded-full mt-10"
             handelClick={handelScroll}
           />
         </motion.div>

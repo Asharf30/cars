@@ -48,7 +48,7 @@ export default async function Home({
   }
 
   return (
-    <main className="">
+    <main className="overflow-x-hidden">
       <Hero />
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
@@ -79,7 +79,7 @@ export default async function Home({
           </div>
         ) : (
           <section>
-            <div className="home__cars-container">
+            <div className="home__cars-wrapper">
               {filteredCars.map((car) => (
                 <CarCard car={car} key={car.id} />
               ))}
