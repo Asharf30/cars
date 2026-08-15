@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const Hero = () => {
   const handelScroll = () => {};
   return (
-    <div className="hero">
+    <div className="hero overflow-hidden">
       <div className="flex-1 pt-[200px] sm:pt-[240px] xl:pt-[280px] padding-x">
         <motion.h1
           className="hero__title"

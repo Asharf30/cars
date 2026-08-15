@@ -316,8 +316,7 @@ a:hover:not(.flex) {
 }
 
 .search-manufacturer__options {
-  @apply absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black  focus:outline-none sm:text-sm;
-
+  @apply absolute mt-1 z-20 max-h-[300px] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm;
   background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
 }

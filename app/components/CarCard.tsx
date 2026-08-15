@@ -3,6 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { CarProps } from "../types";
 import CustomButton from "./CustomButton";
+import CarDetails from "./CarDetails";
 
 interface CarCardProps {
   car: CarProps;
@@ -79,6 +80,7 @@ const getRentalPrice = ({
 const CarCard = ({ car }: CarCardProps) => {
   const { city_mpg, year, make, model, transmission, drive, fuel_type } = car;
   const { dailyPrice, hourlyPrice } = getRentalPrice(car);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="car-card group">
@@ -168,13 +170,23 @@ const CarCard = ({ car }: CarCardProps) => {
               <path d="M12 2v20" />
               <path d="M17 5H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H7" />
             </svg>
-            <p className="text-[14px] font-semibold text-white">
+            <p className="text-[20px] font-semibold text-white">
               ${dailyPrice}/day
             </p>
-            <p className="text-[10px] text-gray-400">${hourlyPrice}/hr</p>
+            <p className="text-[14px] text-gray-400">${hourlyPrice}/hr</p>
           </div>
         </div>
+        <div className="car-card__btn-container">
+          <CustomButton
+            title="View More"
+            continerStyles="w-full py-[16px] rounded-full bg-primary-blue"
+            textStyles="text-white text-[14px] leading-[17px] font-bold"
+            rightIcon="/right-arrow.svg"
+            handelClick={() => setIsOpen(true)}
+          />
+        </div>
       </div>
+      <CarDetails/>
     </div>
   );
 };
