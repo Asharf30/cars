@@ -1,6 +1,7 @@
 "use client";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import SearchManufacturer from "./SearchManufacturer";
+import CustomListbox from "./CustomListbox";
 import { MenuItem } from "../utlis";
 
 interface SearchBarProps {
@@ -58,16 +59,14 @@ const SearchBar = ({
     <form className="searchbar" onSubmit={(e) => e.preventDefault()}>
       {/* Year selector */}
       <div className="searchbar__item">
-        <select
+        <CustomListbox
           value={selectedYear}
-          onChange={(e) => handleYearChange(e.target.value)}
-          className="searchbar__input"
-        >
-          <option value="">Year</option>
-          {years.map((y) => (
-            <option key={y.value} value={y.value}>{y.text}</option>
-          ))}
-        </select>
+          options={years}
+          placeholder="Year"
+          onChange={handleYearChange}
+          buttonClassName="searchbar__input flex justify-between items-center"
+          isSearchbar={true}
+        />
       </div>
 
       {/* Manufacturer combobox (existing, now dynamic) */}
@@ -82,16 +81,14 @@ const SearchBar = ({
       {/* Model selector (only shown when year+make are selected) */}
       {models.length > 0 && (
         <div className="searchbar__item">
-          <select
+          <CustomListbox
             value={selectedModel}
-            onChange={(e) => handleModelChange(e.target.value)}
-            className="searchbar__input"
-          >
-            <option value="">Model</option>
-            {models.map((m) => (
-              <option key={m.value} value={m.value}>{m.text}</option>
-            ))}
-          </select>
+            options={models}
+            placeholder="Model"
+            onChange={handleModelChange}
+            buttonClassName="searchbar__input flex justify-between items-center"
+            isSearchbar={true}
+          />
         </div>
       )}
     </form>

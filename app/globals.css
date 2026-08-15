@@ -283,12 +283,38 @@ a {
   color: #e0fbfc;
 }
 
-.custom-filter__options {
-  @apply absolute mt-1 max-h-60 w-full overflow-auto rounded-md py-1 text-base shadow-lg focus:outline-none sm:text-sm;
+/* END: Custom Filter styles */
+
+/* START: Dropdown styles */
+.dropdown__options {
+  @apply overflow-y-auto overscroll-contain rounded-md py-1 text-base shadow-lg focus:outline-none sm:text-sm;
   background: #1a0b2e;
   border: 1px solid rgba(0, 243, 255, 0.2);
 }
-/* END: Custom Filter styles */
+
+.dropdown__option {
+  @apply relative cursor-default select-none py-2 px-4;
+}
+
+.neon-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-neon-cyan) rgba(26, 11, 46, 0.75);
+}
+.neon-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.neon-scrollbar::-webkit-scrollbar-track {
+  background: rgba(26, 11, 46, 0.75);
+  border-radius: 4px;
+}
+.neon-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-neon-cyan);
+  border-radius: 4px;
+}
+.neon-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neon-violet);
+}
+/* END: Dropdown styles */
 
 /* START: Footer styles */
 .footer {
@@ -368,13 +394,4 @@ a {
     0 0 22px color-mix(in srgb, var(--color-neon-cyan) 18%, transparent);
 }
 
-.search-manufacturer__options {
-  @apply absolute mt-1 z-20 max-h-[300px] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm;
-  background: #1a0b2e;
-  border: 1px solid rgba(0, 243, 255, 0.2);
-}
-
-.search-manufacturer__option {
-  @apply cursor-default select-none py-2 pl-10 pr-4;
-}
 /* END: search manufacturer styles */

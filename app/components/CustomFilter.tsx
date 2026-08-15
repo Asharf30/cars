@@ -1,5 +1,6 @@
 "use client";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import CustomListbox from "./CustomListbox";
 
 interface CustomFilterProps {
   title: string;
@@ -24,18 +25,18 @@ const CustomFilter = ({ title, options, paramKey }: CustomFilterProps) => {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  const mappedOptions = options.map(opt => ({ text: opt.title, value: opt.value }));
+
   return (
-    <select
-      value={currentValue}
-      onChange={(e) => handleChange(e.target.value)}
-      className="custom-filter__btn"
-    >
-      {options.map((opt) => (
-        <option key={opt.title} value={opt.value}>
-          {opt.title}
-        </option>
-      ))}
-    </select>
+    <div className="w-fit">
+      <CustomListbox
+        value={currentValue}
+        options={mappedOptions}
+        placeholder={title}
+        onChange={handleChange}
+        buttonClassName="custom-filter__btn"
+      />
+    </div>
   );
 };
 

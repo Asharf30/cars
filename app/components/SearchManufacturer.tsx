@@ -58,13 +58,17 @@ const SearchManufacturer = ({
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <ComboboxOptions className="search-manufacturer__options">
+            <ComboboxOptions 
+              anchor={{ to: "bottom start", gap: 4, padding: 8 }}
+              portal
+              className="dropdown__options neon-scrollbar w-[var(--input-width)] z-50"
+            >
               {filteredManufacturers.map((item) => (
                 <ComboboxOption
                   key={item}
                   value={item}
                   className={({ focus }) => `
-                    relative search-manufacturer__option 
+                    dropdown__option 
                     ${focus ? " bg-cyan-300 text-white" : "text-white"}
                     `}
                 >
