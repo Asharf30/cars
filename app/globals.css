@@ -257,21 +257,125 @@ a {
 
 /* START: Car Details styles */
 .car-details__dialog-panel {
-  @apply relative w-full max-w-lg max-h-[90vh] overflow-y-auto transform rounded-2xl bg-primary-blue-100 p-6 text-left shadow-xl transition-all flex flex-col gap-5;
-  border: 1px solid rgba(181, 23, 158, 0.3);
+  @apply relative w-full max-w-[516px] overflow-hidden transform rounded-2xl bg-primary-blue-100 p-4 text-left shadow-2xl transition-all flex flex-col gap-4 sm:gap-5 sm:p-6;
+  color: #e0fbfc;
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 30%, transparent);
+  box-shadow:
+    0 24px 56px rgba(0, 0, 0, 0.48),
+    0 0 36px color-mix(in srgb, var(--color-neon-violet) 15%, transparent);
+}
+
+.car-details__backdrop {
+  background: rgba(15, 5, 24, 0.42);
+  backdrop-filter: blur(3px);
 }
 
 .car-details__close-btn {
-  @apply absolute top-2 right-2 z-10 w-fit p-2 rounded-full;
-  background: rgba(181, 23, 158, 0.1);
-  color: #b5179e;
+  @apply absolute top-3 right-3 z-10 rounded-full p-1.5;
+  color: #e0fbfc;
+  transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.car-details__close-btn:hover {
+  background: color-mix(in srgb, var(--color-neon-cyan) 15%, transparent);
+  transform: rotate(90deg);
+}
+
+.car-details__close-btn img {
+  filter: invert(1);
+}
+
+.car-details__media {
+  @apply flex flex-col items-center gap-2;
 }
 
 .car-details__main-image {
-  @apply relative w-full h-40 bg-cover bg-center rounded-lg;
+  @apply relative aspect-square w-full max-w-[160px] overflow-hidden rounded-2xl sm:max-w-[200px];
   background-image:
-    linear-gradient(rgba(26, 11, 46, 0.8), rgba(26, 11, 46, 0.8)),
-    url("/pattern.png");
+    radial-gradient(circle at 50% 70%, rgba(181, 23, 158, 0.18), transparent 62%),
+    linear-gradient(145deg, #0f0518, #1a0b2e);
+  background-position: center;
+  background-size: cover;
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 24%, transparent);
+  box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.4);
+}
+
+.car-details__vehicle {
+  object-fit: contain;
+  animation: car-details-enter 0.45s ease-out both;
+}
+
+.car-details__thumbnails {
+  @apply grid w-full max-w-[360px] grid-cols-3 gap-2;
+}
+
+.car-details__thumbnail {
+  @apply relative h-12 overflow-hidden rounded-xl sm:h-14;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 16%, transparent);
+}
+
+.car-details__thumbnail-image {
+  object-fit: contain;
+  transition: transform 0.25s ease-out, filter 0.25s ease-out;
+}
+
+.car-details__thumbnail:hover .car-details__thumbnail-image {
+  filter: brightness(1.12);
+  transform: scale(1.05);
+}
+
+.car-details__specifications {
+  @apply flex flex-col gap-3 sm:gap-4;
+}
+
+.car-details__title {
+  @apply text-xl font-bold capitalize;
+  color: #e0fbfc;
+}
+
+.car-details__specification-list {
+  @apply grid grid-cols-2 gap-2;
+}
+
+.car-details__specification {
+  @apply flex min-w-0 flex-col gap-0.5 rounded-xl px-3 py-1 text-[13px] leading-4;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 12%, transparent);
+}
+
+.car-details__specification dt {
+  color: #a69cac;
+}
+
+.car-details__specification dd {
+  @apply break-words font-semibold capitalize;
+  color: #e0fbfc;
+}
+
+@keyframes car-details-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .car-details__vehicle {
+    animation: none;
+  }
+
+  .car-details__close-btn {
+    transition: none;
+  }
+
+  .car-details__thumbnail-image {
+    transition: none;
+  }
 }
 /* END: Car Details styles */
 

@@ -75,7 +75,7 @@ export default async function Home({
 
         {isDataEmpty ? (
           <div className="home__error-container">
-            <h2 className="text-black text-xl font-bold">{emptyMessage}</h2>
+            <h2 className="text-white text-xl font-bold">{emptyMessage}</h2>
           </div>
         ) : (
           <section>
