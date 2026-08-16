@@ -91,6 +91,7 @@ const SearchBar = ({
           />
         </div>
       )}
+      
     </form>
   );
 };

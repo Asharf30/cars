@@ -257,7 +257,7 @@ a {
 
 /* START: Car Details styles */
 .car-details__dialog-panel {
-  @apply relative w-full max-w-[516px] overflow-hidden transform rounded-2xl bg-primary-blue-100 p-4 text-left shadow-2xl transition-all flex flex-col gap-4 sm:gap-5 sm:p-6;
+  @apply relative w-full max-w-[420px] md:max-w-[760px] md:flex-row overflow-hidden transform rounded-2xl bg-primary-blue-100 p-4 text-left shadow-2xl transition-all flex flex-col gap-4 sm:p-6 sm:gap-6;
   color: #e0fbfc;
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 30%, transparent);
   box-shadow:
@@ -286,11 +286,11 @@ a {
 }
 
 .car-details__media {
-  @apply flex flex-col items-center gap-2;
+  @apply flex flex-col items-center gap-3 md:w-[320px] shrink-0;
 }
 
 .car-details__main-image {
-  @apply relative aspect-square w-full max-w-[160px] overflow-hidden rounded-2xl sm:max-w-[200px];
+  @apply relative aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl sm:max-w-[280px];
   background-image:
     radial-gradient(circle at 50% 70%, rgba(181, 23, 158, 0.18), transparent 62%),
     linear-gradient(145deg, #0f0518, #1a0b2e);
@@ -306,11 +306,11 @@ a {
 }
 
 .car-details__thumbnails {
-  @apply grid w-full max-w-[360px] grid-cols-3 gap-2;
+  @apply grid w-full max-w-[280px] grid-cols-3 gap-3;
 }
 
 .car-details__thumbnail {
-  @apply relative h-12 overflow-hidden rounded-xl sm:h-14;
+  @apply relative h-16 overflow-hidden rounded-xl sm:h-20;
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 16%, transparent);
 }
@@ -326,20 +326,20 @@ a {
 }
 
 .car-details__specifications {
-  @apply flex flex-col gap-3 sm:gap-4;
+  @apply flex flex-col gap-3 sm:gap-4 flex-1;
 }
 
 .car-details__title {
-  @apply text-xl font-bold capitalize;
+  @apply text-xl sm:text-2xl font-bold capitalize;
   color: #e0fbfc;
 }
 
 .car-details__specification-list {
-  @apply grid grid-cols-2 gap-2;
+  @apply grid grid-cols-2 gap-2 sm:gap-3;
 }
 
 .car-details__specification {
-  @apply flex min-w-0 flex-col gap-0.5 rounded-xl px-3 py-1 text-[13px] leading-4;
+  @apply flex min-w-0 flex-col gap-0.5 rounded-xl px-3 py-1.5 sm:py-2 text-[13px] sm:text-[14px] leading-tight;
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 12%, transparent);
 }

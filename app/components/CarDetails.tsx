@@ -7,6 +7,7 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+import { motion, type Variants } from "framer-motion";
 import { CarProps } from "../types";
 import Image from "next/image";
 
@@ -30,6 +31,34 @@ const specificationLabels: { key: keyof CarProps; label: string }[] = [
   { key: "transmission", label: "Transmission" },
   { key: "year", label: "Year" },
 ];
+
+const specificationsAnimation: Variants = {
+  hidden: {},
+  visible: { transition: { delayChildren: 0.06, staggerChildren: 0.05 } },
+};
+
+const specificationListAnimation: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+
+const specificationContentAnimation: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 15, 
+    scale: 0.94, 
+    filter: "blur(4px)",
+    boxShadow: "0px 10px 24px rgba(0, 229, 255, 0.15)"
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    boxShadow: "0px 0px 0px rgba(0, 229, 255, 0)",
+    transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] },
+  },
+};
 
 const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
   return (
@@ -80,7 +109,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                       fill
                       priority
                       className="car-details__vehicle"
-                      sizes="(max-width: 640px) min(70vw, 240px), 280px"
+                      sizes="(max-width: 640px) min(70vw, 216px), 260px"
                     />
                   </div>
                   <div className="car-details__thumbnails">
@@ -98,20 +127,42 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                   </div>
                 </div>
 
-                <div className="car-details__specifications">
-                  <h2 className="car-details__title">
+                <motion.div
+                  className="car-details__specifications"
+                  initial="hidden"
+                  animate={isOpen ? "visible" : "hidden"}
+                  variants={specificationsAnimation}
+                >
+                  <motion.h2
+                    className="car-details__title"
+                    variants={specificationContentAnimation}
+                  >
                     {car.make} {car.model}
-                  </h2>
+                  </motion.h2>
 
-                  <dl className="car-details__specification-list">
+                  <motion.dl
+                    className="car-details__specification-list"
+                    variants={specificationListAnimation}
+                  >
                     {specificationLabels.map(({ key, label }) => (
-                      <div className="car-details__specification" key={key}>
+                      <motion.div
+                        className="car-details__specification"
+                        key={key}
+                        variants={specificationContentAnimation}
+                        whileHover={{ 
+                          y: -3, 
+                          scale: 1.02,
+                          boxShadow: "0px 6px 16px rgba(0, 229, 255, 0.12)",
+                          borderColor: "rgba(0, 229, 255, 0.3)",
+                          transition: { duration: 0.2, ease: "easeOut" }
+                        }}
+                      >
                         <dt>{label}</dt>
                         <dd>{car[key]}</dd>
-                      </div>
+                      </motion.div>
                     ))}
-                  </dl>
-                </div>
+                  </motion.dl>
+                </motion.div>
               </DialogPanel>
             </TransitionChild>
           </div>
