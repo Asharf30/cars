@@ -14,6 +14,7 @@ const Navbar = () => {
 
   const [isHoverable, setIsHoverable] = useState(true);
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsHoverable(window.matchMedia("(hover: hover) and (pointer: fine)").matches);
   }, []);
 

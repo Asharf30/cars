@@ -36,6 +36,7 @@ const ImageWithSkeleton = ({
         <Image
           {...imageProps}
           src={displaySrc}
+          alt=""
           fill={fill}
           className={`image-with-skeleton__image ${isLoading ? "image-with-skeleton__image--loading" : ""} ${className || ""}`}
           onLoad={(event) => {
