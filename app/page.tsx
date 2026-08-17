@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Hero from "./components/Hero";
 import SearchBar from "./components/SearchBar";
 import CustomFilter from "./components/CustomFilter";
-import { fetchCars, fetchYears, fetchMakes, fetchModels } from "./utlis";
+import { fetchCars, fetchYears, fetchMakes, fetchModels, attachCarImages } from "./utlis";
 import { fuels } from "./contstants";
 import CarCard from "./components/CarCard";
 import { CarProps } from "./types";
@@ -27,7 +27,9 @@ export default async function Home({
   // Fetch cars only when all three are selected
   let allCars: CarProps[] = [];
   if (year && make && model) {
-    allCars = await fetchCars(year, make, model);
+    const rawCars = await fetchCars(year, make, model);
+    // Attach image URLs server-side — key stays in process.env, never reaches the browser
+    allCars = await attachCarImages(rawCars);
   }
 
   // Apply fuel post-filter

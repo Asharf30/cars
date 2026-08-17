@@ -104,23 +104,29 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                 <div className="car-details__media">
                   <div className="car-details__main-image">
                     <Image
-                      src="/final2.png"
+                      src={car.imageUrl || "/final2.png"}
                       alt={`${car.make} ${car.model}`}
                       fill
                       priority
                       className="car-details__vehicle"
                       sizes="(max-width: 640px) min(70vw, 216px), 260px"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = "/final2.png";
+                      }}
                     />
                   </div>
                   <div className="car-details__thumbnails">
                     {[0, 1, 2].map((thumbnailIndex) => (
                       <div className="car-details__thumbnail" key={thumbnailIndex}>
                         <Image
-                          src="/final2.png"
+                          src={car.imageUrl || "/final2.png"}
                           alt=""
                           fill
                           className="car-details__thumbnail-image"
                           sizes="(max-width: 640px) calc((100vw - 104px) / 3), 136px"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).src = "/final2.png";
+                          }}
                         />
                       </div>
                     ))}

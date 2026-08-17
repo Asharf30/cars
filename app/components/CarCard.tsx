@@ -78,9 +78,10 @@ const getRentalPrice = ({
 };
 
 const CarCard = ({ car }: CarCardProps) => {
-  const { city_mpg, year, make, model, transmission, drive, fuel_type } = car;
+  const { city_mpg, year, make, model, transmission, drive, fuel_type, imageUrl } = car;
   const { dailyPrice, hourlyPrice } = getRentalPrice(car);
   const [isOpen, setIsOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState(imageUrl || "/hero.png");
 
   return (
     <div className="car-card group">
@@ -131,11 +132,12 @@ const CarCard = ({ car }: CarCardProps) => {
       </div>
       <div className="w-full relative h-40 my-3 object-contain">
         <Image
-          src="/hero.png"
+          src={imgSrc}
           fill
           priority
           className="object-contain"
-          alt="Car"
+          alt={`${make} ${model}`}
+          onError={() => setImgSrc("/hero.png")}
         />
       </div>{" "}
       <div className="flex relative w-full mt-2">
