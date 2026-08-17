@@ -8,7 +8,7 @@ import {
   ComboboxOptions,
   ComboboxOption,
 } from "@headlessui/react";
-import Image from "next/image";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 import { useState, Fragment } from "react";
 
 const SearchManufacturer = ({
@@ -37,7 +37,7 @@ const SearchManufacturer = ({
       >
         <div className="w-full relative">
           <ComboboxButton className="absolute top-[14px] absolute left-[14px]">
-            <Image
+            <ImageWithSkeleton
               src="/car-logo (3).svg"
               width={20}
               height={20}

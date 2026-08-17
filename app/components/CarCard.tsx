@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 import { CarProps } from "../types";
 import CustomButton from "./CustomButton";
 import CarDetails from "./CarDetails";
@@ -131,19 +131,21 @@ const CarCard = ({ car }: CarCardProps) => {
         <p>Fuel consumption per day</p>
       </div>
       <div className="w-full relative h-40 my-3 object-contain">
-        <Image
+        <ImageWithSkeleton
+          key={imgSrc}
           src={imgSrc}
           fill
           priority
           className="object-contain"
           alt={`${make} ${model}`}
+          fallbackSrc="/hero.png"
           onError={() => setImgSrc("/hero.png")}
         />
       </div>{" "}
       <div className="flex relative w-full mt-2">
         <div className=" flex group-hover:invisible w-full justify-between text-gray-50">
           <div className="flex flex-col justify-center items-center gap-2 ">
-            <Image
+            <ImageWithSkeleton
               src="/steering-wheel.svg"
               alt="Steering Wheel"
               width={20}
@@ -154,7 +156,7 @@ const CarCard = ({ car }: CarCardProps) => {
             </p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2 ">
-            <Image src="/tire.svg" alt="Tire" width={20} height={20} />
+            <ImageWithSkeleton src="/tire.svg" alt="Tire" width={20} height={20} />
             <p className="text-[14px] ">{drive.toUpperCase()}</p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2 ">

@@ -310,9 +310,21 @@ a {
 }
 
 .car-details__thumbnail {
-  @apply relative h-16 overflow-hidden rounded-xl sm:h-20;
+  @apply relative h-16 overflow-hidden rounded-xl sm:h-20 cursor-pointer;
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 16%, transparent);
+  transition: all 0.25s ease-out;
+}
+
+.car-details__thumbnail:hover {
+  border-color: color-mix(in srgb, var(--color-neon-cyan) 45%, transparent);
+  box-shadow: 0 4px 12px rgba(0, 243, 255, 0.15);
+}
+
+.car-details__thumbnail--active {
+  border-color: var(--color-neon-cyan);
+  box-shadow: 0 0 16px rgba(0, 243, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .car-details__thumbnail-image {
@@ -498,3 +510,42 @@ a {
 }
 
 /* END: search manufacturer styles */
+
+/* START: Image With Skeleton styles */
+.image-with-skeleton {
+  @apply relative inline-block overflow-hidden;
+}
+
+.image-with-skeleton--fill {
+  @apply w-full h-full;
+}
+
+.image-skeleton {
+  @apply absolute inset-0 z-0 bg-[#1a0b2e];
+  animation: shimmer 2s infinite linear;
+  background-image: linear-gradient(90deg, rgba(26, 11, 46, 0) 0, rgba(0, 243, 255, 0.08) 20%, rgba(26, 11, 46, 0) 40%, rgba(26, 11, 46, 0));
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.image-fallback {
+  @apply absolute inset-0 flex items-center justify-center bg-[#1a0b2e] text-[#a69cac] text-sm;
+}
+
+.image-with-skeleton__image {
+  @apply transition-opacity duration-300;
+  opacity: 1;
+}
+
+.image-with-skeleton__image--loading {
+  opacity: 0;
+}
+/* END: Image With Skeleton styles */

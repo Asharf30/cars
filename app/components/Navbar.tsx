@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
@@ -70,7 +70,7 @@ const Navbar = () => {
             }}
             className="relative flex justify-center items-center"
           >
-            <Image
+            <ImageWithSkeleton
               src="/logo.svg"
               alt="Logo"
               width={118}
@@ -86,13 +86,11 @@ const Navbar = () => {
                   maskImage: "url('/logo.svg')",
                   WebkitMaskSize: "100% 100%",
                   maskSize: "100% 100%",
-                  WebkitMaskMode: "alpha",
-                  maskMode: "alpha",
                   WebkitMaskRepeat: "no-repeat",
                   maskRepeat: "no-repeat",
                   WebkitMaskPosition: "center",
                   maskPosition: "center",
-                }}
+                } as React.CSSProperties}
               >
                 <motion.div 
                   className="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] bg-gradient-to-tr from-transparent via-[color-mix(in_srgb,var(--color-neon-cyan)_30%,transparent)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"

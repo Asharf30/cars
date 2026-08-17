@@ -10,6 +10,7 @@ import {
 import { motion, type Variants } from "framer-motion";
 import { CarProps } from "../types";
 import Image from "next/image";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 
 interface CarDetailsProps {
   isOpen: boolean;
@@ -109,36 +110,33 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                 </button>
                 <div className="car-details__media">
                   <div className="car-details__main-image">
-                    <Image
+                    <ImageWithSkeleton
+                      key={mainImageUrl}
                       src={mainImageUrl}
                       alt={`${car.make} ${car.model}`}
                       fill
                       priority
                       className="car-details__vehicle"
                       sizes="(max-width: 640px) min(70vw, 216px), 260px"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = "/final2.png";
-                      }}
+                      fallbackSrc="/final2.png"
                     />
                   </div>
                   <div className="car-details__thumbnails">
                     {secondaryImageUrls.map((imageUrl, thumbnailIndex) => (
                       <button
                         type="button"
-                        className="car-details__thumbnail"
+                        className={`car-details__thumbnail ${mainImageUrl === imageUrl ? "car-details__thumbnail--active" : ""}`}
                         key={imageUrl}
                         onClick={() => setMainImageUrl(imageUrl)}
                         aria-label={`Show ${car.make} ${car.model} view ${thumbnailIndex + 2}`}
                       >
-                        <Image
+                        <ImageWithSkeleton
                           src={imageUrl}
                           alt={`${car.make} ${car.model} view ${thumbnailIndex + 2}`}
                           fill
                           className="car-details__thumbnail-image"
                           sizes="(max-width: 640px) calc((100vw - 104px) / 3), 136px"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src = "/final2.png";
-                          }}
+                          fallbackSrc="/final2.png"
                         />
                       </button>
                     ))}

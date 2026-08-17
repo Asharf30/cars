@@ -1,4 +1,4 @@
-import Image from "next/image";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 import Link from "next/link";
 import { footerLinks } from "../contstants";
 
@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer__links-container">
         <div className="footer__rights">
-          <Image
+          <ImageWithSkeleton
             src="/logo.svg"
             alt="Logo"
             width={118}

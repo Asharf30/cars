@@ -1,7 +1,7 @@
 "use client";
 
 import CustomButton from "./CustomButton";
-import Image from "next/image";
+import ImageWithSkeleton from "./ImageWithSkeleton";
 import { motion } from "framer-motion";
 
 const Hero = () => {
@@ -46,7 +46,7 @@ const Hero = () => {
         transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
       >
         <div className="hero__image">
-          <Image src="/final2.png" alt="hero" fill className="object-contain" />
+          <ImageWithSkeleton src="/final2.png" alt="hero" fill className="object-contain" />
         </div>
         <div className="hero__image-overlay " />
       </motion.div>
