@@ -260,6 +260,15 @@ export const calculateCarRent = (city_mpg: number, year: number) => {
 //   back to the local placeholder rather than silently showing the wrong image.
 
 const IMAGE_BASE_URL = "https://cdn.imagin.studio/getImage";
+const CAR_IMAGE_ANGLES = ["01", "09", "23", "29"];
+const CAR_IMAGE_PAINTS = [
+  { id: "Imagin-black", description: "black" },
+  { id: "Imagin-red", description: "red" },
+  { id: "Imagin-blue", description: "blue" },
+  { id: "Imagin-green", description: "green" },
+  { id: "Imagin-yellow", description: "yellow" },
+  { id: "Imagin-orange", description: "orange" },
+];
 
 function getCarImageApiKey(): string | null {
   // Keep supporting the existing project setting while allowing deployments to
@@ -301,6 +310,7 @@ async function validateCarImageKey(apiKey: string): Promise<boolean> {
 export const generateCarImageUrl = (
   car: Pick<CarProps, "make" | "model" | "year">,
   angle?: string,
+  paint?: { id: string; description: string },
 ): string | null => {
   const apiKey = getCarImageApiKey();
   if (!apiKey) {
@@ -320,6 +330,10 @@ export const generateCarImageUrl = (
 
   if (angle) {
     params.set("angle", angle);
+  }
+  if (paint) {
+    params.set("paintId", paint.id);
+    params.set("paintDescription", paint.description);
   }
 
   return `${IMAGE_BASE_URL}?${params.toString()}`;
@@ -345,8 +359,12 @@ export async function attachCarImages(cars: CarProps[]): Promise<CarProps[]> {
     return cars.map((car) => ({ ...car, imageUrl: null }));
   }
 
-  return cars.map((car) => ({
-    ...car,
-    imageUrl: generateCarImageUrl(car),
-  }));
+  return cars.map((car) => {
+    const paint = CAR_IMAGE_PAINTS[car.id % CAR_IMAGE_PAINTS.length];
+    const imageUrls = CAR_IMAGE_ANGLES.map((angle) =>
+      generateCarImageUrl(car, angle, paint),
+    ).filter((imageUrl): imageUrl is string => imageUrl !== null);
+
+    return { ...car, imageUrl: imageUrls[0] ?? null, imageUrls };
+  });
 }

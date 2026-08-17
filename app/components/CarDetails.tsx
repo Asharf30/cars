@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -61,6 +61,12 @@ const specificationContentAnimation: Variants = {
 };
 
 const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
+  const detailImageUrls = car.imageUrls?.length
+    ? car.imageUrls
+    : [car.imageUrl || "/final2.png"];
+  const [mainImageUrl, setMainImageUrl] = useState(detailImageUrls[0]);
+  const secondaryImageUrls = detailImageUrls.slice(1);
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -104,7 +110,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                 <div className="car-details__media">
                   <div className="car-details__main-image">
                     <Image
-                      src={car.imageUrl || "/final2.png"}
+                      src={mainImageUrl}
                       alt={`${car.make} ${car.model}`}
                       fill
                       priority
@@ -116,11 +122,17 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                     />
                   </div>
                   <div className="car-details__thumbnails">
-                    {[0, 1, 2].map((thumbnailIndex) => (
-                      <div className="car-details__thumbnail" key={thumbnailIndex}>
+                    {secondaryImageUrls.map((imageUrl, thumbnailIndex) => (
+                      <button
+                        type="button"
+                        className="car-details__thumbnail"
+                        key={imageUrl}
+                        onClick={() => setMainImageUrl(imageUrl)}
+                        aria-label={`Show ${car.make} ${car.model} view ${thumbnailIndex + 2}`}
+                      >
                         <Image
-                          src={car.imageUrl || "/final2.png"}
-                          alt=""
+                          src={imageUrl}
+                          alt={`${car.make} ${car.model} view ${thumbnailIndex + 2}`}
                           fill
                           className="car-details__thumbnail-image"
                           sizes="(max-width: 640px) calc((100vw - 104px) / 3), 136px"
@@ -128,7 +140,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                             (e.currentTarget as HTMLImageElement).src = "/final2.png";
                           }}
                         />
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>

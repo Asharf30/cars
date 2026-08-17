@@ -32,6 +32,7 @@ export interface CarProps {
   model: string;
   transmission: string;
   imageUrl?: string | null;
+  imageUrls?: string[];
 }
 
 export interface SearchYearProps {

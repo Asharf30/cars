@@ -317,11 +317,10 @@ a {
 
 .car-details__thumbnail-image {
   object-fit: contain;
-  transition: transform 0.25s ease-out, filter 0.25s ease-out;
+  transition: transform 0.25s ease-out;
 }
 
 .car-details__thumbnail:hover .car-details__thumbnail-image {
-  filter: brightness(1.12);
   transform: scale(1.05);
 }
 
