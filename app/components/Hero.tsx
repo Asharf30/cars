@@ -34,7 +34,7 @@ const Hero = () => {
         >
           <CustomButton
             title="Explore Cars"
-            continerStyles="text-white rounded-full mt-10"
+            continerStyles="mt-10 min-h-12 rounded-xl border border-[#57F3FF] bg-[var(--color-neon-cyan)] px-7 py-3 text-[#07131A] font-extrabold shadow-[0_12px_30px_rgba(0,229,255,0.30)] hover:bg-[#75F4FF] hover:shadow-[0_16px_38px_rgba(0,229,255,0.45)]"
             handelClick={handelScroll}
           />
         </motion.div>

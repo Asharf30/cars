@@ -10,6 +10,7 @@ import {
 } from "@headlessui/react";
 import ImageWithSkeleton from "./ImageWithSkeleton";
 import { useState, Fragment } from "react";
+import { getManufacturerIconUrl } from "../lib/manufacturerLogos";
 
 const SearchManufacturer = ({
   manufacturer,
@@ -17,6 +18,8 @@ const SearchManufacturer = ({
   manufacturers,
 }: SearchManufacturerProps) => {
   const [query, setQuery] = useState("");
+  const cdnUrl = getManufacturerIconUrl(manufacturer);
+  const logoUrl = cdnUrl ?? "/car-logo (3).svg";
 
   const filteredManufacturers =
     query === ""
@@ -38,11 +41,12 @@ const SearchManufacturer = ({
         <div className="w-full relative">
           <ComboboxButton className="absolute top-[14px] absolute left-[14px]">
             <ImageWithSkeleton
-              src="/car-logo (3).svg"
+              key={manufacturer}
+              src={logoUrl}
               width={20}
               height={20}
-              className="ml-4"
-              alt="car logo"
+              className={cdnUrl ? "ml-4 invert brightness-200" : "ml-4"}
+              alt={manufacturer ? `${manufacturer} logo` : "Car logo"}
             />
           </ComboboxButton>
           <ComboboxInput

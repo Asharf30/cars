@@ -11,11 +11,12 @@ type ImageWithSkeletonProps = ImageProps & {
 const ImageWithSkeleton = ({
   className,
   containerClassName,
-  fallbackSrc = "/photo.png",
+  fallbackSrc = "/car-logo (3).svg",
   fill,
   onLoad,
   onError,
   src,
+  alt,
   ...imageProps
 }: ImageWithSkeletonProps) => {
   const [displaySrc, setDisplaySrc] = useState(src);
@@ -36,7 +37,7 @@ const ImageWithSkeleton = ({
         <Image
           {...imageProps}
           src={displaySrc}
-          alt=""
+          alt={alt}
           fill={fill}
           className={`image-with-skeleton__image ${isLoading ? "image-with-skeleton__image--loading" : ""} ${className || ""}`}
           onLoad={(event) => {

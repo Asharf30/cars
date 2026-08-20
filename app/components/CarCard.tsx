@@ -4,82 +4,16 @@ import ImageWithSkeleton from "./ImageWithSkeleton";
 import { CarProps } from "../types";
 import CustomButton from "./CustomButton";
 import CarDetails from "./CarDetails";
+import { getRentalPrice, getTotalCarPrice } from "../utlis";
 
 interface CarCardProps {
   car: CarProps;
 }
 
-const getRentalPrice = ({
-  year,
-  city_mpg,
-  transmission,
-  drive,
-  fuel_type,
-  make,
-  class: carClass,
-  cylinders,
-  displacement,
-}: CarProps) => {
-  const makeFactor = [
-    "bmw",
-    "mercedes",
-    "audi",
-    "tesla",
-    "porsche",
-    "lexus",
-  ].includes(make.toLowerCase())
-    ? 1.22
-    : ["toyota", "honda", "hyundai", "kia", "nissan", "ford"].includes(
-          make.toLowerCase(),
-        )
-      ? 0.96
-      : 1.08;
-
-  const classFactor = carClass.toLowerCase().includes("suv")
-    ? 1.14
-    : carClass.toLowerCase().includes("truck") ||
-        carClass.toLowerCase().includes("pickup")
-      ? 1.18
-      : carClass.toLowerCase().includes("sport") ||
-          carClass.toLowerCase().includes("coupe")
-        ? 1.12
-        : carClass.toLowerCase().includes("hybrid")
-          ? 1.02
-          : 1;
-
-  const yearFactor = year >= 2020 ? 1.1 : year >= 2018 ? 1.03 : 0.95;
-  const mpgFactor = Number(city_mpg) >= 30 ? 0.95 : 1.05;
-  const cylinderFactor = cylinders >= 8 ? 1.12 : cylinders === 6 ? 1.05 : 0.95;
-  const displacementFactor =
-    displacement >= 3.5 ? 1.08 : displacement >= 2.5 ? 1.02 : 0.95;
-  const transmissionFactor = transmission === "a" ? 1.06 : 0.98;
-  const driveFactor = drive === "fwd" ? 0.97 : drive === "awd" ? 1.08 : 1.02;
-  const fuelFactor =
-    fuel_type === "electric" ? 0.92 : fuel_type === "hybrid" ? 0.97 : 1;
-
-  const dailyPrice = Math.max(
-    25,
-    Math.round(
-      40 *
-        makeFactor *
-        classFactor *
-        yearFactor *
-        mpgFactor *
-        cylinderFactor *
-        displacementFactor *
-        transmissionFactor *
-        driveFactor *
-        fuelFactor,
-    ),
-  );
-  const hourlyPrice = Math.max(8, Math.round(dailyPrice / 6));
-
-  return { dailyPrice, hourlyPrice };
-};
-
 const CarCard = ({ car }: CarCardProps) => {
-  const { city_mpg, year, make, model, transmission, drive, fuel_type, imageUrl } = car;
+  const { city_mpg, make, model, transmission, imageUrl } = car;
   const { dailyPrice, hourlyPrice } = getRentalPrice(car);
+  const totalPrice = getTotalCarPrice(car);
   const [isOpen, setIsOpen] = useState(false);
   const [imgSrc, setImgSrc] = useState(imageUrl || "/hero.png");
 
@@ -156,8 +90,24 @@ const CarCard = ({ car }: CarCardProps) => {
             </p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2 ">
-            <ImageWithSkeleton src="/tire.svg" alt="Tire" width={20} height={20} />
-            <p className="text-[14px] ">{drive.toUpperCase()}</p>
+            <svg
+              className="text-blue-500"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+              <line x1="7" y1="7" x2="7.01" y2="7" />
+            </svg>
+            <p className="text-[14px] font-semibold text-white">
+              ${totalPrice.toLocaleString()}
+            </p>
+            <p className="text-[12px] text-gray-400">Total Price</p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2 ">
             <svg
@@ -183,7 +133,7 @@ const CarCard = ({ car }: CarCardProps) => {
         <div className="car-card__btn-container">
           <CustomButton
             title="View More"
-            continerStyles="w-full py-[16px] rounded-full"
+            continerStyles="w-full min-h-12 rounded-xl border border-[#C45AFF] bg-[var(--color-neon-violet)] px-5 py-[16px] text-white font-bold shadow-[0_10px_24px_rgba(176,38,255,0.24)] hover:bg-[#C34AFF] hover:shadow-[0_14px_30px_rgba(176,38,255,0.36)]"
             textStyles="text-white text-[14px] leading-[17px] font-bold"
             rightIcon="/right-arrow.svg"
             handelClick={() => setIsOpen(true)}
@@ -200,3 +150,4 @@ const CarCard = ({ car }: CarCardProps) => {
 };
 
 export default CarCard;
+

@@ -221,6 +221,360 @@ export async function fetchCars(
   }
 }
 
+export interface RentalPriceResult {
+  dailyPrice: number;
+  hourlyPrice: number;
+}
+
+export const getRentalPrice = (car: CarProps): RentalPriceResult => {
+  const {
+    year = 2020,
+    city_mpg = 20,
+    transmission = "a",
+    drive = "fwd",
+    fuel_type = "regular",
+    make = "",
+    class: carClass = "",
+    cylinders = 4,
+    displacement = 2.0,
+  } = car;
+
+  const makeLower = (make || "").toLowerCase();
+  const classLower = (carClass || "").toLowerCase();
+  const driveLower = (drive || "").toLowerCase();
+  const fuelLower = (fuel_type || "").toLowerCase();
+  const transLower = (transmission || "").toLowerCase();
+
+  // 1. Make Brand Multiplier
+  const luxuryBrands = [
+    "bmw",
+    "mercedes-benz",
+    "mercedes",
+    "audi",
+    "porsche",
+    "tesla",
+    "lexus",
+    "land rover",
+    "jaguar",
+    "maserati",
+    "bentley",
+    "ferrari",
+    "lamborghini",
+    "rolls-royce",
+    "aston martin",
+    "cadillac",
+    "lincoln",
+    "genesis",
+  ];
+  const economyBrands = [
+    "toyota",
+    "honda",
+    "hyundai",
+    "kia",
+    "nissan",
+    "chevrolet",
+    "ford",
+    "subaru",
+    "volkswagen",
+    "mazda",
+    "mitsubishi",
+  ];
+
+  let makeFactor = 1.08;
+  if (luxuryBrands.some((brand) => makeLower.includes(brand))) {
+    makeFactor = 1.25;
+  } else if (economyBrands.some((brand) => makeLower.includes(brand))) {
+    makeFactor = 0.95;
+  }
+
+  // 2. Body Class Multiplier
+  let classFactor = 1.0;
+  if (
+    classLower.includes("sport") ||
+    classLower.includes("coupe") ||
+    classLower.includes("convertible") ||
+    classLower.includes("two seater")
+  ) {
+    classFactor = 1.2;
+  } else if (classLower.includes("truck") || classLower.includes("pickup")) {
+    classFactor = 1.18;
+  } else if (
+    classLower.includes("suv") ||
+    classLower.includes("special purpose")
+  ) {
+    classFactor = 1.14;
+  } else if (classLower.includes("van") || classLower.includes("minivan")) {
+    classFactor = 1.08;
+  } else if (
+    classLower.includes("compact") ||
+    classLower.includes("subcompact") ||
+    classLower.includes("minicompact")
+  ) {
+    classFactor = 0.92;
+  }
+
+  // 3. Year / Age Multiplier
+  const currentYear = new Date().getFullYear();
+  const age = Math.max(0, currentYear - (Number(year) || currentYear));
+  const yearFactor =
+    age === 0 ? 1.2 : age <= 2 ? 1.12 : age <= 5 ? 1.02 : age <= 10 ? 0.92 : 0.85;
+
+  // 4. Cylinders Multiplier
+  const cyl = Number(cylinders) || 4;
+  const cylinderFactor =
+    cyl >= 8 ? 1.18 : cyl >= 6 ? 1.08 : cyl <= 3 && cyl > 0 ? 0.92 : 1.0;
+
+  // 5. Engine Displacement Multiplier
+  const displ = Number(displacement) || 2.0;
+  const displacementFactor =
+    displ >= 4.0 ? 1.14 : displ >= 3.0 ? 1.06 : displ >= 2.0 ? 1.0 : 0.94;
+
+  // 6. Transmission Multiplier
+  const transmissionFactor = transLower.startsWith("a") ? 1.04 : 0.96;
+
+  // 7. Drivetrain Multiplier
+  const driveFactor =
+    driveLower.includes("awd") ||
+    driveLower.includes("4wd") ||
+    driveLower.includes("4-wheel") ||
+    driveLower.includes("all-wheel")
+      ? 1.1
+      : driveLower.includes("rwd") || driveLower.includes("rear")
+        ? 1.05
+        : 0.98;
+
+  // 8. Fuel Type Multiplier
+  const fuelFactor = fuelLower.includes("electric")
+    ? 1.15
+    : fuelLower.includes("premium")
+      ? 1.08
+      : fuelLower.includes("diesel")
+        ? 1.04
+        : 1.0;
+
+  // 9. MPG Factor (efficiency modifier)
+  const mpg = Number(city_mpg) || 25;
+  const mpgFactor =
+    mpg >= 45 ? 1.08 : mpg >= 30 ? 0.98 : mpg < 18 ? 1.06 : 1.0;
+
+  // Base Daily Rate ($48 base)
+  const baseRate = 48;
+  const dailyPrice = Math.max(
+    28,
+    Math.round(
+      baseRate *
+        makeFactor *
+        classFactor *
+        yearFactor *
+        cylinderFactor *
+        displacementFactor *
+        transmissionFactor *
+        driveFactor *
+        fuelFactor *
+        mpgFactor,
+    ),
+  );
+
+  const hourlyPrice = Math.max(7, Math.round(dailyPrice / 6));
+
+  return { dailyPrice, hourlyPrice };
+};
+
+export const getTotalCarPrice = (car: CarProps): number => {
+  const {
+    year = 2020,
+    city_mpg = 20,
+    transmission = "a",
+    drive = "fwd",
+    fuel_type = "regular",
+    make = "",
+    class: carClass = "",
+    cylinders = 4,
+    displacement = 2.0,
+  } = car;
+
+  const makeLower = (make || "").toLowerCase();
+  const classLower = (carClass || "").toLowerCase();
+  const driveLower = (drive || "").toLowerCase();
+  const fuelLower = (fuel_type || "").toLowerCase();
+  const transLower = (transmission || "").toLowerCase();
+
+  // 1. Base MSRP baseline ($28,000 for standard passenger vehicle)
+  const basePrice = 28000;
+
+  // 2. Make / Brand Tier Multiplier
+  const exoticBrands = [
+    "bugatti",
+    "rolls-royce",
+    "rollsroyce",
+    "ferrari",
+    "lamborghini",
+    "mclaren",
+    "bentley",
+    "aston martin",
+    "astonmartin",
+  ];
+  const highLuxuryBrands = ["porsche", "maserati", "lucid"];
+  const premiumBrands = [
+    "bmw",
+    "mercedes-benz",
+    "mercedes",
+    "audi",
+    "lexus",
+    "land rover",
+    "landrover",
+    "jaguar",
+    "tesla",
+    "cadillac",
+    "lincoln",
+    "genesis",
+    "alfa romeo",
+    "alfaromeo",
+    "volvo",
+  ];
+  const midTierBrands = [
+    "gmc",
+    "ram",
+    "jeep",
+    "dodge",
+    "ford",
+    "chrysler",
+    "acura",
+    "infiniti",
+  ];
+  const economyBrands = [
+    "toyota",
+    "honda",
+    "hyundai",
+    "kia",
+    "nissan",
+    "chevrolet",
+    "subaru",
+    "volkswagen",
+    "mazda",
+    "mitsubishi",
+    "buick",
+    "fiat",
+    "mini",
+  ];
+
+  let brandFactor = 1.0;
+  if (exoticBrands.some((brand) => makeLower.includes(brand))) {
+    brandFactor = 6.8;
+  } else if (highLuxuryBrands.some((brand) => makeLower.includes(brand))) {
+    brandFactor = 3.2;
+  } else if (premiumBrands.some((brand) => makeLower.includes(brand))) {
+    brandFactor = 1.95;
+  } else if (midTierBrands.some((brand) => makeLower.includes(brand))) {
+    brandFactor = 1.25;
+  } else if (economyBrands.some((brand) => makeLower.includes(brand))) {
+    brandFactor = 0.95;
+  }
+
+  // 3. Body Class Multiplier
+  let classFactor = 1.0;
+  if (
+    classLower.includes("sport") ||
+    classLower.includes("coupe") ||
+    classLower.includes("convertible") ||
+    classLower.includes("two seater")
+  ) {
+    classFactor = 1.35;
+  } else if (classLower.includes("truck") || classLower.includes("pickup")) {
+    classFactor = 1.28;
+  } else if (
+    classLower.includes("standard sport utility") ||
+    classLower.includes("special purpose") ||
+    classLower.includes("large suv")
+  ) {
+    classFactor = 1.22;
+  } else if (classLower.includes("suv")) {
+    classFactor = 1.12;
+  } else if (classLower.includes("van") || classLower.includes("minivan")) {
+    classFactor = 1.06;
+  } else if (
+    classLower.includes("compact") ||
+    classLower.includes("subcompact") ||
+    classLower.includes("minicompact")
+  ) {
+    classFactor = 0.88;
+  }
+
+  // 4. Cylinders Multiplier
+  const cyl = Number(cylinders) || 0;
+  let cylinderFactor = 1.0;
+  if (cyl >= 12) cylinderFactor = 1.45;
+  else if (cyl >= 10) cylinderFactor = 1.32;
+  else if (cyl >= 8) cylinderFactor = 1.20;
+  else if (cyl >= 6) cylinderFactor = 1.08;
+  else if (cyl <= 3 && cyl > 0) cylinderFactor = 0.92;
+
+  // 5. Engine Displacement Multiplier
+  const displ = Number(displacement) || 0;
+  let displacementFactor = 1.0;
+  if (displ >= 5.0) displacementFactor = 1.15;
+  else if (displ >= 3.5) displacementFactor = 1.08;
+  else if (displ >= 2.5) displacementFactor = 1.03;
+  else if (displ > 0 && displ < 1.6) displacementFactor = 0.95;
+
+  // 6. Fuel Type Multiplier
+  let fuelFactor = 1.0;
+  if (fuelLower.includes("electric")) {
+    fuelFactor = 1.22;
+  } else if (fuelLower.includes("premium")) {
+    fuelFactor = 1.08;
+  } else if (fuelLower.includes("diesel")) {
+    fuelFactor = 1.04;
+  }
+
+  // 7. Drivetrain Multiplier
+  let driveFactor = 1.0;
+  if (
+    driveLower.includes("awd") ||
+    driveLower.includes("4wd") ||
+    driveLower.includes("4-wheel") ||
+    driveLower.includes("all-wheel")
+  ) {
+    driveFactor = 1.08;
+  } else if (driveLower.includes("rwd") || driveLower.includes("rear")) {
+    driveFactor = 1.04;
+  }
+
+  // 8. Transmission Multiplier
+  const transmissionFactor = transLower.startsWith("a") ? 1.03 : 0.97;
+
+  // 9. Year / Age Depreciation Factor
+  const currentYear = new Date().getFullYear();
+  const age = Math.max(0, currentYear - (Number(year) || currentYear));
+  const ageFactor =
+    age === 0
+      ? 1.0
+      : age === 1
+        ? 0.92
+        : age === 2
+          ? 0.84
+          : age <= 4
+            ? 0.72
+            : age <= 7
+              ? 0.58
+              : age <= 10
+                ? 0.44
+                : Math.max(0.24, 0.44 - (age - 10) * 0.03);
+
+  const rawTotalPrice =
+    basePrice *
+    brandFactor *
+    classFactor *
+    cylinderFactor *
+    displacementFactor *
+    fuelFactor *
+    driveFactor *
+    transmissionFactor *
+    ageFactor;
+
+  return Math.max(5000, Math.round(rawTotalPrice / 100) * 100);
+};
+
 export const calculateCarRent = (city_mpg: number, year: number) => {
   const basePricePerDay = 50;
   const mileageFactor = 0.1;
@@ -234,12 +588,9 @@ export const calculateCarRent = (city_mpg: number, year: number) => {
   return rentalRatePerDay.toFixed(0);
 };
 
-
 // ─── Car Image API (imagin.studio) ──────────────────────────────
 // Constructs a CDN URL for a car image using the imagin.studio API.
 //
-// DIAGNOSIS (confirmed by live API tests):
-//   The IMAGIN.studio CDN returns an X-Imaginstudio-Error response header when
 //   the customer key is disabled — and still returns HTTP 200 with a generic
 //   covered-car placeholder image (242 628 bytes, identical for every request).
 //   This is how we detected that the original ci_e47ec261... key was disabled.

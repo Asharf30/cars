@@ -107,7 +107,7 @@ const Navbar = () => {
         <CustomButton
           title="Sign In"
           btnType="button"
-          continerStyles="text-white rounded-full min-w-[130px]"
+          continerStyles="min-w-[130px] min-h-11 rounded-xl border border-[rgba(0,229,255,0.38)] bg-[rgba(15,5,24,0.58)] px-5 py-3 text-[#E0FBFC] font-semibold shadow-[0_6px_18px_rgba(0,0,0,0.20)] hover:border-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.10)] hover:text-white hover:shadow-[0_8px_22px_rgba(0,229,255,0.18)]"
         />
       </nav>
     </motion.header>
