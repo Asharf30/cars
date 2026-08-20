@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="footer__links-container">
         <div className="footer__rights">
           <ImageWithSkeleton
-            src="/logo.svg"
+            src="/logo.png"
             alt="Logo"
             width={118}
             height={18}

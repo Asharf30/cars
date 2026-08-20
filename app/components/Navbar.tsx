@@ -72,7 +72,7 @@ const Navbar = () => {
             className="relative flex justify-center items-center"
           >
             <ImageWithSkeleton
-              src="/logo.svg"
+              src="/logo.png"
               alt="Logo"
               width={118}
               height={18}
@@ -83,8 +83,8 @@ const Navbar = () => {
               <div
                 className="absolute inset-0 pointer-events-none z-10"
                 style={{
-                  WebkitMaskImage: "url('/logo.svg')",
-                  maskImage: "url('/logo.svg')",
+                  WebkitMaskImage: "url('/logo.png')",
+                  maskImage: "url('/logo.png')",
                   WebkitMaskSize: "100% 100%",
                   maskSize: "100% 100%",
                   WebkitMaskRepeat: "no-repeat",

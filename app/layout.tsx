@@ -16,6 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Car showroom",
   description: "Browse our collection of premium cars",
+  icons: {
+    icon: "/final2.png",
+  },
+  openGraph: {
+    title: "Car showroom",
+    description: "Browse our collection of premium cars",
+    images: ["/final2.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/final2.png"],
+  },
 };
 
 export default function RootLayout({
