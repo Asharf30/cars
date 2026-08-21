@@ -11,6 +11,9 @@ import { motion, type Variants } from "framer-motion";
 import { CarProps } from "../types";
 import Image from "next/image";
 import ImageWithSkeleton from "./ImageWithSkeleton";
+import { useCart } from "../contexts/CartContext";
+import { getTotalCarPrice } from "../utlis";
+import CustomButton from "./CustomButton";
 
 interface CarDetailsProps {
   isOpen: boolean;
@@ -67,6 +70,24 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
     : [car.imageUrl || "/final2.png"];
   const [mainImageUrl, setMainImageUrl] = useState(detailImageUrls[0]);
   const secondaryImageUrls = detailImageUrls.slice(1);
+
+  const { cartItems, addToCart, updateQuantity, isMounted } = useCart();
+  
+  // Find if car is already in cart
+  const cartItem = cartItems.find((item) => item.id === car.id);
+  const isInCart = !!cartItem;
+  
+  const handleAddToCart = () => {
+    addToCart({
+      id: car.id,
+      make: car.make,
+      model: car.model,
+      year: car.year,
+      imageUrl: car.imageUrl || null,
+      price: getTotalCarPrice(car),
+      quantity: 1,
+    });
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -144,40 +165,83 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                 </div>
 
                 <motion.div
-                  className="car-details__specifications"
+                  className="car-details__specifications flex flex-col justify-between h-full"
                   initial="hidden"
                   animate={isOpen ? "visible" : "hidden"}
                   variants={specificationsAnimation}
                 >
-                  <motion.h2
-                    className="car-details__title"
-                    variants={specificationContentAnimation}
-                  >
-                    {car.make} {car.model}
-                  </motion.h2>
+                  <div>
+                    <motion.div className="flex justify-between items-center" variants={specificationContentAnimation}>
+                      <h2 className="car-details__title">
+                        {car.make} {car.model}
+                      </h2>
+                      <span className="text-xl font-extrabold text-[var(--color-neon-cyan)]">
+                        ${getTotalCarPrice(car).toLocaleString()}
+                      </span>
+                    </motion.div>
 
-                  <motion.dl
-                    className="car-details__specification-list"
-                    variants={specificationListAnimation}
-                  >
-                    {specificationLabels.map(({ key, label }) => (
-                      <motion.div
-                        className="car-details__specification"
-                        key={key}
-                        variants={specificationContentAnimation}
-                        whileHover={{ 
-                          y: -3, 
-                          scale: 1.02,
-                          boxShadow: "0px 6px 16px rgba(0, 229, 255, 0.12)",
-                          borderColor: "rgba(0, 229, 255, 0.3)",
-                          transition: { duration: 0.2, ease: "easeOut" }
-                        }}
-                      >
-                        <dt>{label}</dt>
-                        <dd>{car[key]}</dd>
-                      </motion.div>
-                    ))}
-                  </motion.dl>
+                    <motion.dl
+                      className="car-details__specification-list mt-4"
+                      variants={specificationListAnimation}
+                    >
+                      {specificationLabels.map(({ key, label }) => (
+                        <motion.div
+                          className="car-details__specification"
+                          key={key}
+                          variants={specificationContentAnimation}
+                          whileHover={{ 
+                            y: -3, 
+                            scale: 1.02,
+                            boxShadow: "0px 6px 16px rgba(0, 229, 255, 0.12)",
+                            borderColor: "rgba(0, 229, 255, 0.3)",
+                            transition: { duration: 0.2, ease: "easeOut" }
+                          }}
+                        >
+                          <dt>{label}</dt>
+                          <dd>{car[key]}</dd>
+                        </motion.div>
+                      ))}
+                    </motion.dl>
+                  </div>
+                  
+                  {isMounted && (
+                    <motion.div className="mt-6 w-full" variants={specificationContentAnimation}>
+                      {isInCart && cartItem ? (
+                        <div className="flex items-center justify-between p-3 rounded-xl bg-[rgba(0,229,255,0.08)] border border-[var(--color-neon-cyan)] shadow-[0_0_15px_rgba(0,229,255,0.15)]">
+                          <span className="text-sm font-bold text-white flex items-center gap-2">
+                            <svg className="w-5 h-5 text-[var(--color-neon-cyan)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Added to Cart
+                          </span>
+                          <div className="flex items-center gap-3 bg-[#0f0518] rounded-lg p-1 border border-[rgba(0,229,255,0.2)]">
+                            <button
+                              type="button"
+                              disabled={cartItem.quantity <= 1}
+                              onClick={() => updateQuantity(car.id, cartItem.quantity - 1)}
+                              className="w-8 h-8 flex items-center justify-center rounded text-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.15)] disabled:opacity-30 disabled:hover:bg-transparent transition-colors font-bold text-lg"
+                            >
+                              -
+                            </button>
+                            <span className="text-base font-bold w-6 text-center text-white">{cartItem.quantity}</span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(car.id, cartItem.quantity + 1)}
+                              className="w-8 h-8 flex items-center justify-center rounded text-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.15)] transition-colors font-bold text-lg"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <CustomButton
+                          title="Add to Cart"
+                          continerStyles="w-full min-h-[48px] rounded-xl border border-[#C45AFF] bg-[var(--color-neon-violet)] px-5 py-3 text-white font-bold shadow-[0_10px_24px_rgba(176,38,255,0.24)] hover:bg-[#C34AFF] hover:shadow-[0_14px_30px_rgba(176,38,255,0.36)]"
+                          handelClick={handleAddToCart}
+                        />
+                      )}
+                    </motion.div>
+                  )}
                 </motion.div>
               </DialogPanel>
             </TransitionChild>

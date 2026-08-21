@@ -22,7 +22,7 @@ const CustomButton = ({
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
     >
-      <span className={`flex-1 ${textStyles || ""}`}>{title}</span>
+      <span className={`flex-1 text-center ${textStyles || ""}`}>{title}</span>
       {rightIcon && (
         <div className="w-6 relative h-6">
           <ImageWithSkeleton

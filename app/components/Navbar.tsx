@@ -1,10 +1,13 @@
 "use client";
 
+"use client";
+
 import Link from "next/link";
 import ImageWithSkeleton from "./ImageWithSkeleton";
 import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
+import CartIcon from "./CartIcon";
 
 const Navbar = () => {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -104,11 +107,14 @@ const Navbar = () => {
             )}
           </motion.div>
         </Link>
-        <CustomButton
-          title="Sign In"
-          btnType="button"
-          continerStyles="min-w-[130px] min-h-11 rounded-xl border border-[rgba(0,229,255,0.38)] bg-[rgba(15,5,24,0.58)] px-5 py-3 text-[#E0FBFC] font-semibold shadow-[0_6px_18px_rgba(0,0,0,0.20)] hover:border-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.10)] hover:text-white hover:shadow-[0_8px_22px_rgba(0,229,255,0.18)]"
-        />
+        <div className="flex items-center gap-10">
+          <CartIcon />
+          <CustomButton
+            title="Sign In"
+            btnType="button"
+            continerStyles="min-w-[130px] min-h-11 rounded-xl border border-[rgba(0,229,255,0.38)] bg-[rgba(15,5,24,0.58)] px-5 py-3 text-[#E0FBFC] font-semibold shadow-[0_6px_18px_rgba(0,0,0,0.20)] hover:border-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.10)] hover:text-white hover:shadow-[0_8px_22px_rgba(0,229,255,0.18)]"
+          />
+        </div>
       </nav>
     </motion.header>
   );

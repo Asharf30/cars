@@ -30,6 +30,9 @@ export const metadata: Metadata = {
   },
 };
 
+import CartDrawer from "./components/CartDrawer";
+import { CartProvider } from "./contexts/CartContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,9 +44,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} `}
     >
       <body className="">
-        <Navbar />
-        {children}
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );
