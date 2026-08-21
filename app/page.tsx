@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Hero from "./components/Hero";
 import SearchBar from "./components/SearchBar";
 import CustomFilter from "./components/CustomFilter";
+import ResetFiltersButton from "./components/ResetFiltersButton";
 import { fetchCars, fetchYears, fetchMakes, fetchModels, attachCarImages } from "./utlis";
 import { fuels } from "./contstants";
 import CarCard from "./components/CarCard";
@@ -71,6 +72,9 @@ export default async function Home({
           <div className="home__filter-container">
             <Suspense fallback={<div>Loading Filters...</div>}>
               <CustomFilter title="Fuel" options={fuels} paramKey="fuel" />
+            </Suspense>
+            <Suspense fallback={null}>
+              <ResetFiltersButton />
             </Suspense>
           </div>
         </div>

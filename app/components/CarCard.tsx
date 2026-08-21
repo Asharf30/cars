@@ -86,7 +86,7 @@ const CarCard = ({ car }: CarCardProps) => {
               height={20}
             />
             <p className="text-[14px] ">
-              {transmission === "a" ? "Automatic" : "Manual"}
+              {transmission === "a" ? "Manual" : "Automatic"}
             </p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2 ">
