@@ -687,6 +687,11 @@ export const generateCarImageUrl = (
     params.set("paintDescription", paint.description);
   }
 
+  // Explicitly set the tailoring parameter to standard 'imagin' branding.
+  // This decouples the watermark's color from the car's paint color out of the box,
+  // preventing them from matching and becoming indistinguishable.
+  params.set("tailoring", "imagin");
+
   return `${IMAGE_BASE_URL}?${params.toString()}`;
 };
 
