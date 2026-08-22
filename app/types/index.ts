@@ -35,10 +35,6 @@ export interface CarProps {
   imageUrls?: string[];
 }
 
-export interface SearchYearProps {
-  year: string;
-  setYear: (year: string) => void;
-}
 
 export interface CartItem extends Pick<CarProps, "id" | "make" | "model" | "year" | "imageUrl"> {
   price: number;

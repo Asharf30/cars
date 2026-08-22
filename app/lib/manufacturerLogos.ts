@@ -1,4 +1,4 @@
-export type ManufacturerLogo = {
+type ManufacturerLogo = {
   slug: string;
   source: "simple-icons" | "local";
   color?: string;
@@ -83,7 +83,7 @@ const normalizedManufacturerLogos = new Map(
   ]),
 );
 
-export const getManufacturerLogo = (manufacturer: string): ManufacturerLogo | null => {
+const getManufacturerLogo = (manufacturer: string): ManufacturerLogo | null => {
   const trimmedManufacturer = manufacturer.trim();
   if (!trimmedManufacturer) return null;
 
@@ -118,5 +118,3 @@ export const isSimpleIconsSource = (manufacturer: string): boolean => {
   return logo?.source === "simple-icons";
 };
 
-export const getManufacturerBrandColor = (manufacturer: string): string | null =>
-  getManufacturerLogo(manufacturer)?.color ?? null;

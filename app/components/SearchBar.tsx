@@ -25,7 +25,6 @@ const SearchBar = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Helper: update one param, optionally clear dependent params
   const updateParams = (updates: Record<string, string>, clearKeys: string[] = []) => {
     const params = new URLSearchParams(searchParams.toString());
     for (const key of clearKeys) {
@@ -42,12 +41,10 @@ const SearchBar = ({
   };
 
   const handleYearChange = (year: string) => {
-    // Changing year clears make and model (they depend on year)
     updateParams({ year }, ["make", "model"]);
   };
 
   const handleMakeChange = (make: string) => {
-    // Changing make clears model (it depends on make)
     updateParams({ make }, ["model"]);
   };
 
@@ -57,7 +54,6 @@ const SearchBar = ({
 
   return (
     <form className="searchbar" onSubmit={(e) => e.preventDefault()}>
-      {/* Year selector */}
       <div className="searchbar__item">
         <CustomListbox
           value={selectedYear}
@@ -69,7 +65,6 @@ const SearchBar = ({
         />
       </div>
 
-      {/* Manufacturer combobox (existing, now dynamic) */}
       <div className="searchbar__item">
         <SearchManufacturer
           manufacturer={selectedMake}
@@ -78,7 +73,6 @@ const SearchBar = ({
         />
       </div>
 
-      {/* Model selector (only shown when year+make are selected) */}
       {models.length > 0 && (
         <div className="searchbar__item">
           <CustomListbox

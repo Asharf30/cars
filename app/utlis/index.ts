@@ -111,7 +111,7 @@ export async function fetchModels(
 }
 
 // ─── Step 4: Get Vehicle Option IDs ──────────────────────────────
-export async function fetchOptions(
+async function fetchOptions(
   year: string,
   make: string,
   model: string,
@@ -129,7 +129,7 @@ export async function fetchOptions(
 }
 
 // ─── Step 5: Get Vehicle Details by ID ───────────────────────────
-export async function fetchVehicleById(id: number): Promise<CarProps | null> {
+async function fetchVehicleById(id: number): Promise<CarProps | null> {
   const cacheKey = `vehicle:${id}`;
   const cached = getCached<CarProps>(cacheKey);
   if (cached) return cached;
@@ -383,7 +383,6 @@ export const getRentalPrice = (car: CarProps): RentalPriceResult => {
 export const getTotalCarPrice = (car: CarProps): number => {
   const {
     year = 2020,
-    city_mpg = 20,
     transmission = "a",
     drive = "fwd",
     fuel_type = "regular",
@@ -575,18 +574,7 @@ export const getTotalCarPrice = (car: CarProps): number => {
   return Math.max(5000, Math.round(rawTotalPrice / 100) * 100);
 };
 
-export const calculateCarRent = (city_mpg: number, year: number) => {
-  const basePricePerDay = 50;
-  const mileageFactor = 0.1;
-  const ageFactor = 0.05;
 
-  const mileageRate = city_mpg * mileageFactor;
-  const ageRate = (new Date().getFullYear() - year) * ageFactor;
-
-  const rentalRatePerDay = basePricePerDay + mileageRate + ageRate;
-
-  return rentalRatePerDay.toFixed(0);
-};
 
 // ─── Car Image API (imagin.studio) ──────────────────────────────
 // Constructs a CDN URL for a car image using the imagin.studio API.
@@ -658,7 +646,7 @@ async function validateCarImageKey(apiKey: string): Promise<boolean> {
   }
 }
 
-export const generateCarImageUrl = (
+const generateCarImageUrl = (
   car: Pick<CarProps, "make" | "model" | "year">,
   angle?: string,
   paint?: { id: string; description: string },

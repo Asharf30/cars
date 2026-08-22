@@ -10,7 +10,6 @@ const CustomButton = ({
   classname,
   textStyles,
   rightIcon,
-  isDisabled,
 }: CustomButtonProps) => {
   return (
     <motion.button

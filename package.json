@@ -10,13 +10,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
-    "car-brand-logos": "^1.0.0",
-    "car-makes-icons": "^1.0.0",
     "framer-motion": "^12.43.0",
     "next": "16.2.12",
     "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "simple-icons": "^16.28.0"
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

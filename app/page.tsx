@@ -25,7 +25,6 @@ export default async function Home({
   const makes = year ? await fetchMakes(year) : [];
   const models = year && make ? await fetchModels(year, make) : [];
 
-  // Fetch cars only when all three are selected
   let allCars: CarProps[] = [];
   if (year && make && model) {
     const rawCars = await fetchCars(year, make, model);
@@ -33,14 +32,12 @@ export default async function Home({
     allCars = await attachCarImages(rawCars);
   }
 
-  // Apply fuel post-filter
   const filteredCars = fuel
     ? allCars.filter((car) => car.fuel_type === fuel)
     : allCars;
 
   const isDataEmpty = filteredCars.length === 0;
 
-  // Determine the right empty-state message
   let emptyMessage = "No results found";
   if (!year) {
     emptyMessage = "Select a year to start browsing";
