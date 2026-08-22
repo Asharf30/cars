@@ -5,7 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.imagin.studio",
+        hostname: "carimagesapi.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.carimagesapi.com",
       },
       {
         protocol: "https",

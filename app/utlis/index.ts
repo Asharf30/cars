@@ -575,46 +575,43 @@ export const getTotalCarPrice = (car: CarProps): number => {
 };
 
 
-
-// ─── Car Image API (imagin.studio) ──────────────────────────────
-// Constructs a CDN URL for a car image using the imagin.studio API.
+// ─── Car Image API (CarImagesAPI.com) ───────────────────────────
+// Fetches signed image URLs from the CarImagesAPI service.
 //
-//   the customer key is disabled — and still returns HTTP 200 with a generic
-//   covered-car placeholder image (242 628 bytes, identical for every request).
-//   This is how we detected that the original ci_e47ec261... key was disabled.
+// The project originally used imagin.studio with a placeholder key.
+// CarImagesAPI is the production replacement — it provides studio-quality
+// photos for 206 car brands / 12,000+ generations, with 8 camera angles,
+// fuzzy make/model matching, and a global edge CDN.
 //
-//   Fix: use the configured CAR_IMAGE_API_KEY or existing
-//   NEXT_PUBLIC_CAR_IMAGE_API_KEY setting from .env.
+// INTEGRATION APPROACH:
+//   Server-side only: the API key stays in process.env and is never sent to
+//   the browser. We call the batch signed-url endpoint to get time-limited,
+//   HMAC-signed image URLs that are safe to embed in HTML.
 //
-// MODEL NORMALIZATION:
-//   Tested "envision fwd" vs "envision", "f-150 4wd" vs "f-150", etc.
-//   All returned identical byte counts — the API silently ignores drivetrain
-//   suffixes. No normalization is needed.
+// ANGLE MAPPING (IMAGIN → CarImagesAPI):
+//   "01" (front ¾)   → "front34"
+//   "09" (side)       → "side"
+//   "23" (rear ¾)     → "rear34"
+//   "29" (rear)       → "rear"
+//
+// COLOR:
+//   CarImagesAPI serves each car in its representative/standard color.
+//   There is no dynamic color selection — the IMAGIN paint-assignment logic
+//   has been removed.
 //
 // KEY VALIDATION:
-//   validateCarImageKey() performs one HEAD request on server startup and
-//   checks for the X-Imaginstudio-Error header. The result is cached with the
-//   same TTL used everywhere else in this file. If the key is disabled, every
-//   subsequent generateCarImageUrl call returns null so the catalogue falls
-//   back to the local placeholder rather than silently showing the wrong image.
+//   validateCarImageKey() performs one probe request on first use and
+//   caches the result with the same TTL used everywhere else in this file.
 
-const IMAGE_BASE_URL = "https://cdn.imagin.studio/getImage";
-const CAR_IMAGE_ANGLES = ["01", "09", "23", "29"];
-const CAR_IMAGE_PAINTS = [
-  { id: "Imagin-black", description: "black" },
-  { id: "Imagin-red", description: "red" },
-  { id: "Imagin-blue", description: "blue" },
-  { id: "Imagin-green", description: "green" },
-  { id: "Imagin-yellow", description: "yellow" },
-  { id: "Imagin-orange", description: "orange" },
-];
+const CAR_IMAGES_API_BASE = "https://carimagesapi.com";
+
+// 4 camera angles that closely match the original IMAGIN angle set.
+const CAR_IMAGE_VIEWS = ["front34", "side", "rear34", "rear"] as const;
 
 function getCarImageApiKey(): string | null {
-  // Keep supporting the existing project setting while allowing deployments to
-  // provide a server-only name instead.
   return (
-    process.env.CAR_IMAGE_API_KEY?.trim() ||
-    process.env.NEXT_PUBLIC_CAR_IMAGE_API_KEY?.trim() ||
+    process.env.CAR_IMAGES_API_KEY?.trim() ||
+    process.env.NEXT_PUBLIC_CAR_IMAGES_API_KEY?.trim() ||
     null
   );
 }
@@ -625,18 +622,33 @@ async function validateCarImageKey(apiKey: string): Promise<boolean> {
   if (cached !== null) return cached;
 
   try {
-    // Use a known-good vehicle as a probe request (HEAD to avoid downloading image)
-    const probeUrl = `${IMAGE_BASE_URL}?customer=${encodeURIComponent(apiKey)}&make=toyota&modelFamily=camry&modelYear=2023&zoomType=fullscreen`;
-    const res = await fetch(probeUrl, { method: "HEAD" });
-    const errorHeader = res.headers.get("x-imaginstudio-error");
-    if (errorHeader) {
+    // Probe with a known-good vehicle via the signed-url endpoint.
+    const probeUrl =
+      `${CAR_IMAGES_API_BASE}/api/v1/signed-url` +
+      `?api_key=${encodeURIComponent(apiKey)}` +
+      `&make=toyota&model=camry&year=2023`;
+    const res = await fetch(probeUrl);
+
+    if (!res.ok) {
       console.error(
-        `[CarImageAPI] Key validation failed — X-Imaginstudio-Error: "${errorHeader}". ` +
-        `Car images will not be shown. Update CAR_IMAGE_API_KEY in .env.`
+        `[CarImageAPI] Key validation failed — HTTP ${res.status}. ` +
+          `Car images will not be shown. Check CAR_IMAGES_API_KEY in .env.`,
       );
       setCache(cacheKey, false);
       return false;
     }
+
+    // Verify the response contains a url field
+    const data = await res.json();
+    if (!data?.url) {
+      console.error(
+        `[CarImageAPI] Key validation failed — unexpected response. ` +
+          `Car images will not be shown. Check CAR_IMAGES_API_KEY in .env.`,
+      );
+      setCache(cacheKey, false);
+      return false;
+    }
+
     setCache(cacheKey, true);
     return true;
   } catch (err) {
@@ -646,54 +658,65 @@ async function validateCarImageKey(apiKey: string): Promise<boolean> {
   }
 }
 
-const generateCarImageUrl = (
-  car: Pick<CarProps, "make" | "model" | "year">,
-  angle?: string,
-  paint?: { id: string; description: string },
-): string | null => {
-  const apiKey = getCarImageApiKey();
-  if (!apiKey) {
-    console.warn("[CarImageAPI] CAR_IMAGE_API_KEY is not set — skipping car image.");
-    return null;
+/**
+ * Fetch signed image URLs for a batch of car+view combinations using the
+ * CarImagesAPI batch endpoint (POST /api/v1/signed-urls).
+ *
+ * Returns an array of signed URL strings in the same order as the input.
+ * On failure, returns an empty array so callers can fall back gracefully.
+ */
+async function fetchSignedImageUrls(
+  apiKey: string,
+  requests: { make: string; model: string; year: string; view: string }[],
+): Promise<string[]> {
+  if (requests.length === 0) return [];
+
+  // Build a cache key for the entire batch
+  const batchCacheKey = `signed-urls:${JSON.stringify(requests)}`;
+  const cached = getCached<string[]>(batchCacheKey);
+  if (cached !== null) return cached;
+
+  try {
+    const res = await fetch(
+      `${CAR_IMAGES_API_BASE}/api/v1/signed-urls?api_key=${encodeURIComponent(apiKey)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ images: requests }),
+      },
+    );
+
+    if (!res.ok) {
+      console.error(
+        `[CarImageAPI] Batch signed-url request failed — HTTP ${res.status}.`,
+      );
+      return [];
+    }
+
+    const data = await res.json();
+    const urls: string[] = data?.urls ?? [];
+
+    if (urls.length > 0) {
+      setCache(batchCacheKey, urls);
+    }
+    return urls;
+  } catch (err) {
+    console.error("[CarImageAPI] Batch signed-url request failed:", err);
+    return [];
   }
-
-  const params = new URLSearchParams({
-    customer: apiKey,
-    make: car.make.toLowerCase(),
-    // modelFamily: send the full model string — API ignores drive-train suffixes
-    // (confirmed: "envision fwd" === "envision" byte-for-byte in API response)
-    modelFamily: car.model.toLowerCase(),
-    modelYear: String(car.year),
-    zoomType: "fullscreen",
-  });
-
-  if (angle) {
-    params.set("angle", angle);
-  }
-  if (paint) {
-    params.set("paintId", paint.id);
-    params.set("paintDescription", paint.description);
-  }
-
-  // Explicitly set the tailoring parameter to standard 'imagin' branding.
-  // This decouples the watermark's color from the car's paint color out of the box,
-  // preventing them from matching and becoming indistinguishable.
-  params.set("tailoring", "imagin");
-
-  return `${IMAGE_BASE_URL}?${params.toString()}`;
-};
+}
 
 // ─── Batch image attachment ───────────────────────────────────────
-// Validates the API key once per cache window, then attaches imageUrl to
-// every car. Returns null imageUrls if the key is disabled so the catalogue
-// falls back to local placeholders instead of showing the covered-car image.
-// Follows the same async pattern as the rest of this file.
+// Validates the API key once per cache window, then fetches signed image
+// URLs from CarImagesAPI for each car × view combination. Attaches
+// imageUrl and imageUrls to every car. Returns null imageUrls if the key
+// is missing/invalid so the catalogue falls back to local placeholders.
 export async function attachCarImages(cars: CarProps[]): Promise<CarProps[]> {
   const apiKey = getCarImageApiKey();
 
-  // Skip image attachment entirely if the key is missing or disabled
+  // Skip image attachment entirely if the key is missing
   if (!apiKey) {
-    console.warn("[CarImageAPI] CAR_IMAGE_API_KEY is not set — cars will render without images.");
+    console.warn("[CarImageAPI] CAR_IMAGES_API_KEY is not set — cars will render without images.");
     return cars;
   }
 
@@ -703,12 +726,31 @@ export async function attachCarImages(cars: CarProps[]): Promise<CarProps[]> {
     return cars.map((car) => ({ ...car, imageUrl: null }));
   }
 
-  return cars.map((car) => {
-    const paint = CAR_IMAGE_PAINTS[car.id % CAR_IMAGE_PAINTS.length];
-    const imageUrls = CAR_IMAGE_ANGLES.map((angle) =>
-      generateCarImageUrl(car, angle, paint),
-    ).filter((imageUrl): imageUrl is string => imageUrl !== null);
+  // Build batch request: for each car, request all 4 views
+  const batchRequests: { make: string; model: string; year: string; view: string }[] = [];
+  for (const car of cars) {
+    for (const view of CAR_IMAGE_VIEWS) {
+      batchRequests.push({
+        make: car.make,
+        model: car.model,
+        year: String(car.year),
+        view,
+      });
+    }
+  }
+
+  // Fetch all signed URLs in one batch call
+  const signedUrls = await fetchSignedImageUrls(apiKey, batchRequests);
+
+  // Map signed URLs back to each car
+  const viewCount = CAR_IMAGE_VIEWS.length;
+  return cars.map((car, carIndex) => {
+    const startIdx = carIndex * viewCount;
+    const imageUrls = signedUrls
+      .slice(startIdx, startIdx + viewCount)
+      .filter(Boolean);
 
     return { ...car, imageUrl: imageUrls[0] ?? null, imageUrls };
   });
 }
+
