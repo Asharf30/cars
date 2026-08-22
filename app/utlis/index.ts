@@ -590,9 +590,8 @@ export const getTotalCarPrice = (car: CarProps): number => {
 //
 // ANGLE MAPPING (IMAGIN → CarImagesAPI):
 //   "01" (front ¾)   → "front34"
+//   "03" (front)      → "front"
 //   "09" (side)       → "side"
-//   "23" (rear ¾)     → "rear34"
-//   "29" (rear)       → "rear"
 //
 // COLOR:
 //   CarImagesAPI serves each car in its representative/standard color.
@@ -605,8 +604,8 @@ export const getTotalCarPrice = (car: CarProps): number => {
 
 const CAR_IMAGES_API_BASE = "https://carimagesapi.com";
 
-// 4 camera angles that closely match the original IMAGIN angle set.
-const CAR_IMAGE_VIEWS = ["front34", "side", "rear34", "rear"] as const;
+// 3 front-facing camera angles — no rear views shown anywhere in the app.
+const CAR_IMAGE_VIEWS = ["front34", "front", "side"] as const;
 
 function getCarImageApiKey(): string | null {
   return (
@@ -726,7 +725,7 @@ export async function attachCarImages(cars: CarProps[]): Promise<CarProps[]> {
     return cars.map((car) => ({ ...car, imageUrl: null }));
   }
 
-  // Build batch request: for each car, request all 4 views
+  // Build batch request: for each car, request all 3 views
   const batchRequests: { make: string; model: string; year: string; view: string }[] = [];
   for (const car of cars) {
     for (const view of CAR_IMAGE_VIEWS) {
