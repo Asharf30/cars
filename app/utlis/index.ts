@@ -742,15 +742,46 @@ export async function attachCarImages(cars: CarProps[]): Promise<CarProps[]> {
   // Fetch all signed URLs in one batch call
   const signedUrls = await fetchSignedImageUrls(apiKey, batchRequests);
 
+  // ── Color filter presets ──────────────────────────────────────
+  // CarImagesAPI serves each vehicle in one fixed factory color.
+  // These CSS filter presets shift the visible body-paint color without
+  // meaningfully affecting the low-saturation watermark text.
+  const COLOR_FILTER_PRESETS = [
+    "none",                                                   // 0 — Original (API default)
+    "hue-rotate(330deg) saturate(1.3) brightness(0.95)",      // 1 — Red
+    "hue-rotate(40deg) saturate(1.4) brightness(1.05)",       // 2 — Gold / Yellow
+    "saturate(0.15) brightness(0.55)",                        // 3 — Dark / Near-black
+    "saturate(0.2) brightness(1.25)",                         // 4 — Silver / Light
+    "hue-rotate(90deg) saturate(1.1) brightness(0.95)",       // 5 — Green
+  ];
+
   // Map signed URLs back to each car
   const viewCount = CAR_IMAGE_VIEWS.length;
   return cars.map((car, carIndex) => {
     const startIdx = carIndex * viewCount;
-    const imageUrls = signedUrls
+    let imageUrls = signedUrls
       .slice(startIdx, startIdx + viewCount)
       .filter(Boolean);
 
-    return { ...car, imageUrl: imageUrls[0] ?? null, imageUrls };
+    // Rotate the view-angle order so each trim leads with a different angle
+    if (imageUrls.length > 1) {
+      const angleShift = car.id % imageUrls.length;
+      imageUrls = [
+        ...imageUrls.slice(angleShift),
+        ...imageUrls.slice(0, angleShift),
+      ];
+    }
+
+    // Assign a deterministic color filter based on the car's unique ID
+    const imageColorFilter =
+      COLOR_FILTER_PRESETS[car.id % COLOR_FILTER_PRESETS.length];
+
+    return {
+      ...car,
+      imageUrl: imageUrls[0] ?? null,
+      imageUrls,
+      imageColorFilter,
+    };
   });
 }
 

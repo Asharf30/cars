@@ -65,13 +65,14 @@ const CarCard = ({ car }: CarCardProps) => {
         </svg>
         <p>Fuel consumption per day</p>
       </div>
-      <div className="w-full relative h-40 my-3 object-contain">
+      <div className="car-card__image-frame">
         <ImageWithSkeleton
           key={imgSrc}
           src={imgSrc}
           fill
           priority
           className="object-contain"
+          style={car.imageColorFilter && car.imageColorFilter !== "none" ? { filter: car.imageColorFilter } : undefined}
           alt={`${make} ${model}`}
           fallbackSrc="/hero.png"
           onError={() => setImgSrc("/hero.png")}

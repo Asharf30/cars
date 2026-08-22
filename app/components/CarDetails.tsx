@@ -138,6 +138,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                       fill
                       priority
                       className="car-details__vehicle"
+                      style={car.imageColorFilter && car.imageColorFilter !== "none" ? { filter: car.imageColorFilter } : undefined}
                       sizes="(max-width: 640px) min(70vw, 216px), 260px"
                       fallbackSrc="/final2.png"
                     />
@@ -156,6 +157,7 @@ const CarDetails = ({ isOpen, closeModal, car }: CarDetailsProps) => {
                           alt={`${car.make} ${car.model} view ${thumbnailIndex + 2}`}
                           fill
                           className="car-details__thumbnail-image"
+                          style={car.imageColorFilter && car.imageColorFilter !== "none" ? { filter: car.imageColorFilter } : undefined}
                           sizes="(max-width: 640px) calc((100vw - 104px) / 3), 136px"
                           fallbackSrc="/final2.png"
                         />

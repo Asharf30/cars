@@ -239,6 +239,13 @@ a {
 }
 /* END: Car Card styles */
 
+/* Car card image frame — matches .car-details__thumbnail styling */
+.car-card__image-frame {
+  @apply w-full relative h-40 my-3 overflow-hidden rounded-xl;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 16%, transparent);
+}
+
 /* START: Car Details styles */
 .car-details__dialog-panel {
   @apply relative w-full max-w-[420px] md:max-w-[760px] md:flex-row overflow-hidden transform rounded-2xl bg-primary-blue-100 p-4 text-left shadow-2xl transition-all flex flex-col gap-4 sm:p-6 sm:gap-6;

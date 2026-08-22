@@ -33,6 +33,7 @@ export interface CarProps {
   transmission: string;
   imageUrl?: string | null;
   imageUrls?: string[];
+  imageColorFilter?: string;
 }
 
 

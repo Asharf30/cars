@@ -138,7 +138,7 @@ const CartDrawer = () => {
                             */}
                             <div className="grid grid-cols-[80px_minmax(0,1fr)_148px] gap-3 p-4">
                               {/* Column 1 — Image */}
-                              <div className="relative h-[72px] w-[80px] rounded-xl overflow-hidden bg-[#0f0518] border border-[rgba(255,255,255,0.06)] self-center">
+                              <div className="relative h-[72px] w-[80px] overflow-hidden self-center car-details__thumbnail">
                                 <ImageWithSkeleton
                                   src={item.imageUrl || "/final2.png"}
                                   alt={`${item.make} ${item.model}`}
