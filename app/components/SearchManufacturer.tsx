@@ -99,7 +99,7 @@ const SearchManufacturer = ({
 
                       {selected ? (
                         <span
-                          className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? "text-white" : "text-pribg-primary-purple"}`}
+                          className={`absolute inset-y-0 left-0 flex items-center pl-3 ${focus ? "text-white" : "text-primary-blue-100"}`}
                         >
                           ✓
                         </span>

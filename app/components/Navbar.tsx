@@ -1,9 +1,6 @@
 "use client";
-
-"use client";
-
 import Link from "next/link";
-import ImageWithSkeleton from "./ImageWithSkeleton";
+import Image from "next/image";
 import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
@@ -74,7 +71,7 @@ const Navbar = () => {
             }}
             className="relative flex justify-center items-center"
           >
-            <ImageWithSkeleton
+            <Image
               src="/logo.png"
               alt="Logo"
               width={118}

@@ -14,7 +14,7 @@ const CartIcon = () => {
       onClick={toggleCart}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="relative flex items-center justify-center w-11 h-11 rounded-full border border-[rgba(0,229,255,0.38)] bg-[rgba(15,5,24,0.58)] text-[#E0FBFC] hover:border-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.10)] hover:text-white transition-colors duration-200 shadow-[0_6px_18px_rgba(0,0,0,0.20)] hover:shadow-[0_8px_22px_rgba(0,229,255,0.18)]"
+      className="relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[rgba(0,229,255,0.38)] bg-[rgba(15,5,24,0.58)] text-[#E0FBFC] shadow-[0_6px_18px_rgba(0,0,0,0.20)] transition-colors duration-200 hover:border-[var(--color-neon-cyan)] hover:bg-[rgba(0,229,255,0.10)] hover:text-white hover:shadow-[0_8px_22px_rgba(0,229,255,0.18)]"
       aria-label="Open Cart"
     >
       <svg
@@ -23,7 +23,7 @@ const CartIcon = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.8}
         stroke="currentColor"
-        className="w-6 h-6"
+        className="h-6 w-6 cursor-pointer"
       >
         <path
           strokeLinecap="round"
@@ -39,7 +39,7 @@ const CartIcon = () => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="absolute -top-1 -right-1 flex items-center justify-center min-w-[20px] h-[20px] rounded-full bg-[var(--color-neon-violet)] text-white text-xs font-bold px-1"
+            className="absolute -top-1 -right-1 flex items-center justify-center min-w-[20px] h-[20px] rounded-full bg-[var(--color-neon-amber)] text-white text-xs font-bold px-1"
           >
             {totalItems}
           </motion.div>

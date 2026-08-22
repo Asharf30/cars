@@ -77,8 +77,8 @@ const CarCard = ({ car }: CarCardProps) => {
           onError={() => setImgSrc("/hero.png")}
         />
       </div>{" "}
-      <div className="flex relative w-full mt-2">
-        <div className=" flex group-hover:invisible w-full justify-between text-gray-50">
+      <div className="relative mt-2 flex w-full flex-col md:flex-row">
+        <div className="car-card__summary flex group-hover:invisible w-full justify-between text-gray-50">
           <div className="flex flex-col justify-center items-center gap-2 ">
             <Image
               src="/steering-wheel.svg"
@@ -134,7 +134,7 @@ const CarCard = ({ car }: CarCardProps) => {
         <div className="car-card__btn-container">
           <CustomButton
             title="View More"
-            continerStyles="w-full min-h-12 rounded-xl border border-[#C45AFF] bg-[var(--color-neon-violet)] px-5 py-[16px] text-white font-bold shadow-[0_10px_24px_rgba(176,38,255,0.24)] hover:bg-[#C34AFF] hover:shadow-[0_14px_30px_rgba(176,38,255,0.36)]"
+            continerStyles="w-full min-h-12 rounded-xl border border-[#F5A623] bg-[var(--color-neon-amber)] px-5 py-[16px] text-white font-bold shadow-[0_10px_24px_rgba(245,166,35,0.24)] hover:bg-[#D97706] hover:shadow-[0_14px_30px_rgba(245,166,35,0.36)]"
             textStyles="text-white text-[14px] leading-[17px] font-bold"
             rightIcon="/right-arrow.svg"
             handelClick={() => setIsOpen(true)}
@@ -151,4 +151,3 @@ const CarCard = ({ car }: CarCardProps) => {
 };
 
 export default CarCard;
-

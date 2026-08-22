@@ -6,12 +6,12 @@
   --color-black-100: #e0fbfc;
   --color-primary-blue: #00f3ff;
   --color-primary-blue-100: #1a0b2e;
-  --color-secondary-orange: #b5179e;
-  --color-light-white: rgba(181, 23, 158, 0.08);
-  --color-light-white-100: rgba(181, 23, 158, 0.04);
+  --color-secondary-orange: #f5a623;
+  --color-light-white: rgba(245, 166, 35, 0.08);
+  --color-light-white-100: rgba(245, 166, 35, 0.04);
   --color-grey: #a69cac;
-  --color-neon-cyan: #00E5FF;
-  --color-neon-violet: #B026FF;
+  --color-neon-cyan: #00e5ff;
+  --color-neon-amber: #f5a623;
   --background-image-pattern: url("/pattern.png");
   --background-image-hero-bg: url("/hero-bg.png");
 }
@@ -73,7 +73,8 @@ body {
 
 /* START: Logo styles */
 @keyframes float-idle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -126,7 +127,8 @@ a {
 
 .neon-link:hover {
   color: var(--color-neon-cyan);
-  text-shadow: 0 0 8px color-mix(in srgb, var(--color-neon-cyan) 80%, transparent);
+  text-shadow: 0 0 8px
+    color-mix(in srgb, var(--color-neon-cyan) 80%, transparent);
 }
 
 .neon-link:hover::after {
@@ -143,12 +145,16 @@ a {
 .hero__title {
   @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold mt-25;
   color: #e0fbfc;
-  text-shadow: 0 0 15px rgba(181, 23, 158, 0.4);
+  text-shadow: 0 0 15px rgba(245, 166, 35, 0.4);
 }
 
 .hero__subtitle {
   @apply text-[27px] font-light mt-5;
   color: #a69cac;
+}
+
+.hero__cta {
+  margin-top: 48px;
 }
 
 .hero__image-container {
@@ -164,7 +170,7 @@ a {
   @apply absolute lg:-top-24 lg:-right-1/2 -right-1/4 -z-10 w-full lg:h-screen h-[590px] overflow-hidden max-w-full;
   background: radial-gradient(
     circle at center,
-    rgba(181, 23, 158, 0.15) 0%,
+    rgba(245, 166, 35, 0.15) 0%,
     rgba(0, 243, 255, 0.08) 50%,
     transparent 70%
   );
@@ -196,7 +202,11 @@ a {
 /* START: Car Card styles */
 .car-card {
   @apply flex flex-col p-6 justify-center items-start rounded-3xl transition-all duration-300;
-  background: linear-gradient(180deg, rgba(26, 11, 46, 0.96), rgba(15, 5, 24, 0.96));
+  background: linear-gradient(
+    180deg,
+    rgba(26, 11, 46, 0.96),
+    rgba(15, 5, 24, 0.96)
+  );
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 18%, transparent);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
@@ -246,6 +256,18 @@ a {
 .car-card__btn-container {
   @apply hidden group-hover:flex absolute bottom-0 w-full z-10;
 }
+
+@media (max-width: 767px) {
+  .car-card__summary {
+    visibility: visible;
+  }
+
+  .car-card__btn-container {
+    display: flex;
+    position: static;
+    margin-top: 16px;
+  }
+}
 /* END: Car Card styles */
 
 /* START: Car Details styles */
@@ -255,7 +277,7 @@ a {
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 30%, transparent);
   box-shadow:
     0 24px 56px rgba(0, 0, 0, 0.48),
-    0 0 36px color-mix(in srgb, var(--color-neon-violet) 15%, transparent);
+    0 0 36px color-mix(in srgb, var(--color-neon-amber) 15%, transparent);
 }
 
 .car-details__backdrop {
@@ -264,14 +286,26 @@ a {
 }
 
 .car-details__close-btn {
-  @apply absolute top-3 right-3 z-10 rounded-full p-1.5;
+  @apply absolute top-2 right-4 z-10 flex size-9 items-center justify-center rounded-full border sm:top-4 sm:right-6;
+  background: rgba(15, 5, 24, 0.78);
+  border-color: color-mix(in srgb, var(--color-neon-cyan) 42%, transparent);
   color: #e0fbfc;
-  transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+  transition:
+    background-color 0.2s ease-out,
+    border-color 0.2s ease-out,
+    transform 0.2s ease-out;
 }
 
 .car-details__close-btn:hover {
-  background: color-mix(in srgb, var(--color-neon-cyan) 15%, transparent);
+  background: color-mix(in srgb, var(--color-neon-cyan) 20%, #0f0518);
+  border-color: var(--color-neon-cyan);
   transform: rotate(90deg);
+}
+
+.car-details__close-btn:focus-visible {
+  outline: 2px solid var(--color-neon-cyan);
+  outline-offset: 2px;
 }
 
 .car-details__close-btn img {
@@ -285,7 +319,11 @@ a {
 .car-details__main-image {
   @apply relative aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl sm:max-w-[280px];
   background-image:
-    radial-gradient(circle at 50% 70%, rgba(181, 23, 158, 0.18), transparent 62%),
+    radial-gradient(
+      circle at 50% 70%,
+      rgba(245, 166, 35, 0.18),
+      transparent 62%
+    ),
     linear-gradient(145deg, #0f0518, #1a0b2e);
   background-position: center;
   background-size: cover;
@@ -383,6 +421,18 @@ a {
 }
 /* END: Car Details styles */
 
+.cart-drawer__total {
+  width: 100%;
+  margin-right: 12px;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  white-space: nowrap;
+}
+
 /* START: Custom Filter styles */
 .custom-filter__btn {
   @apply relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg py-2 px-3 text-left shadow-md sm:text-sm;
@@ -420,14 +470,14 @@ a {
   border-radius: 4px;
 }
 .neon-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neon-violet);
+  background: var(--color-neon-amber);
 }
 /* END: Dropdown styles */
 
 /* START: Footer styles */
 .footer {
   @apply flex flex-col mt-5;
-  border-top: 1px solid rgba(181, 23, 158, 0.2);
+  border-top: 1px solid rgba(245, 166, 35, 0.2);
   background: #0f0518;
 }
 
@@ -449,7 +499,7 @@ a {
 
 .footer__copyrights {
   @apply flex justify-between items-center flex-wrap mt-10 sm:px-16 px-6 py-10;
-  border-top: 1px solid rgba(181, 23, 158, 0.1);
+  border-top: 1px solid rgba(245, 166, 35, 0.1);
 }
 
 .footer__copyrights-link {
@@ -470,9 +520,12 @@ a {
   @apply w-full h-[48px] pl-12 p-4 rounded-lg outline-none cursor-pointer text-sm;
   background: rgba(26, 11, 46, 0.9);
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 25%, transparent);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--color-neon-cyan) 8%, transparent);
+  box-shadow: 0 0 18px
+    color-mix(in srgb, var(--color-neon-cyan) 8%, transparent);
   color: #e0fbfc;
-  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out;
+  transition:
+    border-color 0.25s ease-out,
+    box-shadow 0.25s ease-out;
 }
 .searchbar__input:focus {
   border-color: var(--color-neon-cyan);
@@ -491,9 +544,12 @@ a {
   @apply w-full h-[48px] pl-12 p-4 rounded-lg outline-none cursor-pointer text-sm;
   background: rgba(26, 11, 46, 0.9);
   border: 1px solid color-mix(in srgb, var(--color-neon-cyan) 25%, transparent);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--color-neon-cyan) 8%, transparent);
+  box-shadow: 0 0 18px
+    color-mix(in srgb, var(--color-neon-cyan) 8%, transparent);
   color: #e0fbfc;
-  transition: border-color 0.25s ease-out, box-shadow 0.25s ease-out;
+  transition:
+    border-color 0.25s ease-out,
+    box-shadow 0.25s ease-out;
 }
 .search-manufacturer__input:focus {
   border-color: var(--color-neon-cyan);
@@ -516,7 +572,13 @@ a {
 .image-skeleton {
   @apply absolute inset-0 z-0 bg-[#1a0b2e];
   animation: shimmer 2s infinite linear;
-  background-image: linear-gradient(90deg, rgba(26, 11, 46, 0) 0, rgba(0, 243, 255, 0.08) 20%, rgba(26, 11, 46, 0) 40%, rgba(26, 11, 46, 0));
+  background-image: linear-gradient(
+    90deg,
+    rgba(26, 11, 46, 0) 0,
+    rgba(0, 243, 255, 0.08) 20%,
+    rgba(26, 11, 46, 0) 40%,
+    rgba(26, 11, 46, 0)
+  );
   background-size: 200% 100%;
 }
 

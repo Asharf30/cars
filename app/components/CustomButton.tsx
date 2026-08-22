@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { CustomButtonProps } from "../types";
-import ImageWithSkeleton from "./ImageWithSkeleton";
+import Image from "next/image";
 const CustomButton = ({
   title,
   continerStyles,
@@ -25,7 +25,7 @@ const CustomButton = ({
       <span className={`flex-1 text-center ${textStyles || ""}`}>{title}</span>
       {rightIcon && (
         <div className="w-6 relative h-6">
-          <ImageWithSkeleton
+          <Image
             src={rightIcon}
             alt="right icon"
             fill
