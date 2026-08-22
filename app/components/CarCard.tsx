@@ -5,6 +5,7 @@ import { CarProps } from "../types";
 import CustomButton from "./CustomButton";
 import CarDetails from "./CarDetails";
 import { getRentalPrice, getTotalCarPrice } from "../utlis";
+import Image from "next/image";
 
 interface CarCardProps {
   car: CarProps;
@@ -79,7 +80,7 @@ const CarCard = ({ car }: CarCardProps) => {
       <div className="flex relative w-full mt-2">
         <div className=" flex group-hover:invisible w-full justify-between text-gray-50">
           <div className="flex flex-col justify-center items-center gap-2 ">
-            <ImageWithSkeleton
+            <Image
               src="/steering-wheel.svg"
               alt="Steering Wheel"
               width={20}
