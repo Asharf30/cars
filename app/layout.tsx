@@ -14,13 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Car showroom",
+  title: "Cars",
   description: "Browse our collection of premium cars",
   icons: {
     icon: "/final2.png",
   },
   openGraph: {
-    title: "Car showroom",
+    title: "Cars",
     description: "Browse our collection of premium cars",
     images: ["/final2.png"],
   },

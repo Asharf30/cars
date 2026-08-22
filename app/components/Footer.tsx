@@ -15,7 +15,7 @@ const Footer = () => {
             className="object-contain logo-float"
           />
           <p className="text-base text-[#E0FBFC]">
-            2026 Car Showroom. <br />
+            2026 Cars. <br />
             All rights reserved ©
           </p>
         </div>
@@ -41,7 +41,7 @@ const Footer = () => {
       </div>
       <div className="footer__copyrights">
         <p className="text-[#E0FBFC]">
-          &copy; 2026 Car Showroom. All rights reserved.
+          &copy; 2026 Asharf. All rights reserved.
         </p>
         <div className="footer__copyrights-link">
           <Link
