@@ -49,7 +49,7 @@ const SearchManufacturer = ({
               key={manufacturer}
               src={logoUrl}
               fallbackSrc={localFallbackUrl}
-              fallbackClassName="ml-4 object-contain grayscale"
+              fallbackClassName="ml-4 object-contain brightness-0 invert"
               fallbackComponent={
                 <div className="ml-4 w-5 h-5 rounded-full bg-cyan-300 text-white flex items-center justify-center text-[10px] font-bold">
                   {firstLetter}
@@ -57,7 +57,7 @@ const SearchManufacturer = ({
               }
               width={20}
               height={20}
-              className="ml-4 object-contain grayscale"
+              className="ml-4 object-contain brightness-0 invert"
               alt={manufacturer ? `${manufacturer} logo` : "Car logo"}
             />
           </ComboboxButton>
